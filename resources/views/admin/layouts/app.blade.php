@@ -43,10 +43,10 @@
     <div class="d-flex flex-column flex-root">
         <!--begin::Page-->
         <div class="flex-row page d-flex flex-column-fluid">
-            @include('layouts.partial.aside')
+            @include('admin.layouts.partial.aside')
             <!--begin::Wrapper-->
             <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
-                @include('layouts.partial.header')
+                @include('admin.layouts.partial.header')
                 <!--begin::Content-->
                 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
                    @yield('page-title')
@@ -61,7 +61,7 @@
                     <!--end::Post-->
                 </div>
                 <!--end::Content-->
-                @include('layouts.partial.footer')
+                @include('admin.layouts.partial.footer')
             </div>
             <!--end::Wrapper-->
         </div>

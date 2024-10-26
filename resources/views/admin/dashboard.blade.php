@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 @section('page-title')
 <!--begin::Toolbar-->
 <div class="toolbar" id="kt_toolbar">
