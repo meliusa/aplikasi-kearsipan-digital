@@ -91,7 +91,7 @@
         <a href="../../demo1/dist/documentation/getting-started.html" class="btn btn-custom btn-primary w-100"
             data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss-="click"
             title="200+ in-house components and 3rd-party plugins">
-            <span class="btn-label">Logout</span>
+            <span class="btn-label">Keluar</span>
         </a>
     </div>
     <!--end::Footer-->
