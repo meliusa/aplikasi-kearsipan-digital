@@ -10,13 +10,10 @@
             class="flex-wrap mb-5 page-title d-flex align-items-center me-3 mb-lg-0">
             <!--begin::Title-->
             <h1 class="my-1 d-flex align-items-center text-dark fw-bolder fs-3">
-                Dashboard
+                Dashboards
                 <!--begin::Separator-->
                 <span class="mx-2 border-gray-200 h-20px border-start ms-3"></span>
                 <!--end::Separator-->
-                <!--begin::Description-->
-                <small class="my-1 text-muted fs-7 fw-bold ms-1">#XRS-45670</small>
-                <!--end::Description-->
             </h1>
             <!--end::Title-->
         </div>
@@ -27,5 +24,5 @@
 <!--end::Toolbar-->
 @endsection
 @section('content')
-ini dashboard
+Selamat Datang Di Aplikasi Kearsipan Digital Pada SD Negeri 010 Sagulung
 @endsection
