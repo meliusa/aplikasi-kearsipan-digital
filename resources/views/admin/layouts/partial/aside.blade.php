@@ -76,19 +76,7 @@
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
                         </span>
-                        <span class="menu-title">Pengaturan Aplikasi</span>
-                    </a>
-                    <a class="menu-link" href="#">
-                        <span class="menu-bullet">
-                            <span class="bullet bullet-dot"></span>
-                        </span>
                         <span class="menu-title">Log Aktivitas</span>
-                    </a>
-                    <a class="menu-link" href="#">
-                        <span class="menu-bullet">
-                            <span class="bullet bullet-dot"></span>
-                        </span>
-                        <span class="menu-title">Profil Saya</span>
                     </a>
                 </div>
             </div>
