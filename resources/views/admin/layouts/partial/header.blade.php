@@ -80,12 +80,6 @@
                         </div>
                         <!--end::Menu item-->
                         <!--begin::Menu item-->
-                        <div class="px-5 my-1 menu-item">
-                            <a href="../../demo1/dist/account/settings.html"
-                                class="px-5 menu-link">Account Settings</a>
-                        </div>
-                        <!--end::Menu item-->
-                        <!--begin::Menu item-->
                         <div class="px-5 menu-item">
                             <a href="../../demo1/dist/authentication/flows/basic/sign-in.html"
                                 class="px-5 menu-link">Sign Out</a>
