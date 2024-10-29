@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('password');
             $table->enum('role', ['admin','staf'])->default('staf');
             $table->boolean('is_active')->default(true);
+            $table->string('photo')->nullable();
             $table->timestamps();
         });
     }

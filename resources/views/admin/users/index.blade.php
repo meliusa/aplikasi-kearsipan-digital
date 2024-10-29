@@ -14,7 +14,7 @@
     <ul class="my-1 breadcrumb breadcrumb-separatorless fw-bold fs-7">
         <!--begin::Item-->
         <li class="breadcrumb-item text-muted">
-            <a href="../../demo1/dist/index.html" class="text-muted text-hover-primary">Home</a>
+            <a href="{{ route('dashboard.index') }}" class="text-muted text-hover-primary">Home</a>
         </li>
         <!--end::Item-->
         <!--begin::Item-->
@@ -349,8 +349,7 @@
                         <!--begin::Table row-->
                         <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
                             <th class="min-w-125px">No</th>
-                            <th class="min-w-125px">Nama</th>
-                            <th class="min-w-125px">Email</th>
+                            <th class="min-w-125px">Pengguna</th>
                             <th class="min-w-125px">Peran</th>
                             <th class="min-w-125px">Status</th>
                             <th class="min-w-125px">Terakhir Diperbarui</th>
@@ -365,8 +364,25 @@
                         <!--begin::Table row-->
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->email }}</td>
+                            <td class="d-flex align-items-center">
+                                <!--begin:: Avatar -->
+                                <div class="overflow-hidden symbol symbol-circle symbol-50px me-3">
+                                    <a href="../../demo1/dist/apps/user-management/users/view.html">
+                                        <div class="symbol-label">
+                                            {{-- <img src="assets/media/avatars/300-6.jpg" alt="Emma Smith" class="w-100" /> --}}
+                                            <img src="" alt="Foto" class="w-100" />
+                                        </div>
+                                    </a>
+                                </div>
+                                <!--end::Avatar-->
+                                <!--begin::User details-->
+                                <div class="d-flex flex-column">
+                                    <a href="../../demo1/dist/apps/user-management/users/view.html"
+                                        class="mb-1 text-gray-800 text-hover-primary">{{ $user->name }}</a>
+                                    <span>{{ $user->email }}</span>
+                                </div>
+                                <!--begin::User details-->
+                            </td>
                             @php
                             $result = "";
                             if($user->role == "admin"){

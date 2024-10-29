@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Carbon\Carbon;
 
 class UserSeeder extends Seeder
 {
@@ -14,97 +13,71 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('users')->insert([
+        // Daftar data pengguna
+        $users = [
             [
-                'name' => 'Rina Setiawati',
-                'email' => 'rina.setiawati@example.com',
+                'name' => 'Ahmad Hidayat',
+                'email' => 'ahmad.hidayat@example.com',
                 'password' => Hash::make('password123'),
                 'role' => 'admin',
                 'is_active' => true,
-                'created_at' => Carbon::now()->subDays(rand(1, 365))->subHours(rand(0, 23))->subMinutes(rand(0, 59)),
-                'updated_at' => Carbon::now()->subDays(rand(0, 364))->subHours(rand(0, 23))->subMinutes(rand(0, 59)),
+                'photo' => 'images/portraits/men/1.jpg',
+                'created_at' => now()->subDays(rand(1, 30)),
+                'updated_at' => now()->subDays(rand(1, 30)),
             ],
             [
-                'name' => 'Andi Santoso',
-                'email' => 'andi.santoso@example.com',
+                'name' => 'Siti Nurhaliza',
+                'email' => 'siti.nurhaliza@example.com',
                 'password' => Hash::make('password123'),
                 'role' => 'staf',
                 'is_active' => true,
-                'created_at' => Carbon::now()->subDays(rand(1, 365))->subHours(rand(0, 23))->subMinutes(rand(0, 59)),
-                'updated_at' => Carbon::now()->subDays(rand(0, 364))->subHours(rand(0, 23))->subMinutes(rand(0, 59)),   
+                'photo' => 'images/portraits/women/1.jpg',
+                'created_at' => now()->subDays(rand(1, 30)),
+                'updated_at' => now()->subDays(rand(1, 30)),
             ],
             [
-                'name' => 'Dewi Anggraini',
-                'email' => 'dewi.anggraini@example.com',
+                'name' => 'Budi Santoso',
+                'email' => 'budi.santoso@example.com',
                 'password' => Hash::make('password123'),
                 'role' => 'staf',
                 'is_active' => true,
-                'created_at' => Carbon::now()->subDays(rand(1, 365))->subHours(rand(0, 23))->subMinutes(rand(0, 59)),
-                'updated_at' => Carbon::now()->subDays(rand(0, 364))->subHours(rand(0, 23))->subMinutes(rand(0, 59)),
+                'photo' => 'images/portraits/men/2.jpg',
+                'created_at' => now()->subDays(rand(1, 30)),
+                'updated_at' => now()->subDays(rand(1, 30)),
             ],
             [
-                'name' => 'Budi Hartono',
-                'email' => 'budi.hartono@example.com',
+                'name' => 'Dewi Lestari',
+                'email' => 'dewi.lestari@example.com',
+                'password' => Hash::make('password123'),
+                'role' => 'staf',
+                'is_active' => false,
+                'photo' => 'images/portraits/women/2.jpg',
+                'created_at' => now()->subDays(rand(1, 30)),
+                'updated_at' => now()->subDays(rand(1, 30)),
+            ],
+            [
+                'name' => 'Rizki Firmansyah',
+                'email' => 'rizki.firmansyah@example.com',
                 'password' => Hash::make('password123'),
                 'role' => 'staf',
                 'is_active' => true,
-                'created_at' => Carbon::now()->subDays(rand(1, 365))->subHours(rand(0, 23))->subMinutes(rand(0, 59)),
-                'updated_at' => Carbon::now()->subDays(rand(0, 364))->subHours(rand(0, 23))->subMinutes(rand(0, 59)),
+                'photo' => 'images/portraits/men/3.jpg',
+                'created_at' => now()->subDays(rand(1, 30)),
+                'updated_at' => now()->subDays(rand(1, 30)),
             ],
             [
-                'name' => 'Siti Nurhasanah',
-                'email' => 'siti.nurhasanah@example.com',
+                'name' => 'Lina Mariani',
+                'email' => 'lina.mariani@example.com',
                 'password' => Hash::make('password123'),
                 'role' => 'staf',
                 'is_active' => true,
-                'created_at' => Carbon::now()->subDays(rand(1, 365))->subHours(rand(0, 23))->subMinutes(rand(0, 59)),
-                'updated_at' => Carbon::now()->subDays(rand(0, 364))->subHours(rand(0, 23))->subMinutes(rand(0, 59)),
+                'photo' => 'images/portraits/women/3.jpg',
+                'created_at' => now()->subDays(rand(1, 30)),
+                'updated_at' => now()->subDays(rand(1, 30)),
             ],
-            [
-                'name' => 'Arief Hidayat',
-                'email' => 'arief.hidayat@example.com',
-                'password' => Hash::make('password123'),
-                'role' => 'staf',
-                'is_active' => true,
-                'created_at' => Carbon::now()->subDays(rand(1, 365))->subHours(rand(0, 23))->subMinutes(rand(0, 59)),
-                'updated_at' => Carbon::now()->subDays(rand(0, 364))->subHours(rand(0, 23))->subMinutes(rand(0, 59)),
-            ],
-            [
-                'name' => 'Maya Pratiwi',
-                'email' => 'maya.pratiwi@example.com',
-                'password' => Hash::make('password123'),
-                'role' => 'staf',
-                'is_active' => true,
-                'created_at' => Carbon::now()->subDays(rand(1, 365))->subHours(rand(0, 23))->subMinutes(rand(0, 59)),
-                'updated_at' => Carbon::now()->subDays(rand(0, 364))->subHours(rand(0, 23))->subMinutes(rand(0, 59)),
-            ],
-            [
-                'name' => 'Rizky Firmansyah',
-                'email' => 'rizky.firmansyah@example.com',
-                'password' => Hash::make('password123'),
-                'role' => 'staf',
-                'is_active' => true,
-                'created_at' => Carbon::now()->subDays(rand(1, 365))->subHours(rand(0, 23))->subMinutes(rand(0, 59)),
-                'updated_at' => Carbon::now()->subDays(rand(0, 364))->subHours(rand(0, 23))->subMinutes(rand(0, 59)),
-            ],
-            [
-                'name' => 'Lina Setiani',
-                'email' => 'lina.setiani@example.com',
-                'password' => Hash::make('password123'),
-                'role' => 'staf',
-                'is_active' => true,
-                'created_at' => Carbon::now()->subDays(rand(1, 365))->subHours(rand(0, 23))->subMinutes(rand(0, 59)),
-                'updated_at' => Carbon::now()->subDays(rand(0, 364))->subHours(rand(0, 23))->subMinutes(rand(0, 59)),
-            ],
-            [
-                'name' => 'Taufik Rahman',
-                'email' => 'taufik.rahman@example.com',
-                'password' => Hash::make('password123'),
-                'role' => 'staf',
-                'is_active' => true,
-                'created_at' => Carbon::now()->subDays(rand(1, 365))->subHours(rand(0, 23))->subMinutes(rand(0, 59)),
-                'updated_at' => Carbon::now()->subDays(rand(0, 364))->subHours(rand(0, 23))->subMinutes(rand(0, 59)),
-            ],
-        ]);
+        ];
+
+        // Insert data ke database
+        DB::table('users')->insert($users);
     }
 }

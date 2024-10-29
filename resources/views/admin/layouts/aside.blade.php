@@ -6,7 +6,7 @@
     <!--begin::Brand-->
     <div class="aside-logo flex-column-auto" id="kt_aside_logo">
         <!--begin::Logo-->
-        <a href="#">
+        <a href="{{ route('dashboard.index') }}">
             <img alt="Logo" src="assets/media/logos/sd.webp" class="h-25px logo" />
         </a>
         <!--end::Logo-->
@@ -42,19 +42,19 @@
             <div class="menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
                 id="#kt_aside_menu" data-kt-menu="true" data-kt-menu-expand="false">
                 <div class="menu-item menu-accordion">
-                    <a class="menu-link" href="#">
+                    <a class="menu-link" href="{{ route('dashboard.index') }}">
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
                         </span>
                         <span class="menu-title">Dashboard</span>
                     </a>
-                    <a class="menu-link" href="#">
+                    <a class="menu-link" href="{{ route('users.index') }}">
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
                         </span>
                         <span class="menu-title">Manajemen Pengguna</span>
                     </a>
-                    <a class="menu-link" href="#">
+                    <a class="menu-link" href="{{ route('documents.index') }}">
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
                         </span>
@@ -64,13 +64,7 @@
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
                         </span>
-                        <span class="menu-title">Kategori Dokumen</span>
-                    </a>
-                    <a class="menu-link" href="#">
-                        <span class="menu-bullet">
-                            <span class="bullet bullet-dot"></span>
-                        </span>
-                        <span class="menu-title">Laporan</span>
+                        <span class="menu-title">Manajer File</span>
                     </a>
                     <a class="menu-link" href="#">
                         <span class="menu-bullet">
