@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -7,6 +8,4 @@ Route::get('/', function () {
 });
 
 
-Route::get('/users', function () {
-    return view('admin.users.index');
-});
+Route::resource('/users', UserController::class);

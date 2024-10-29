@@ -348,12 +348,12 @@
                     <thead>
                         <!--begin::Table row-->
                         <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
-
-                            <th class="min-w-125px">User</th>
-                            <th class="min-w-125px">Role</th>
-                            <th class="min-w-125px">Last login</th>
-                            <th class="min-w-125px">Two-step</th>
-                            <th class="min-w-125px">Joined Date</th>
+                            <th class="min-w-125px">No</th>
+                            <th class="min-w-125px">Nama</th>
+                            <th class="min-w-125px">Email</th>
+                            <th class="min-w-125px">Peran</th>
+                            <th class="min-w-125px">Status</th>
+                            <th class="min-w-125px">Terakhir Diperbarui</th>
                             <th class="text-end min-w-100px">Aksi</th>
                         </tr>
                         <!--end::Table row-->
@@ -361,44 +361,37 @@
                     <!--end::Table head-->
                     <!--begin::Table body-->
                     <tbody class="text-gray-600 fw-bold">
+                        @foreach ($users as $user)
                         <!--begin::Table row-->
                         <tr>
-
-                            <!--begin::User=-->
-                            <td class="d-flex align-items-center">
-                                <!--begin:: Avatar -->
-                                <div class="overflow-hidden symbol symbol-circle symbol-50px me-3">
-                                    <a href="../../demo1/dist/apps/user-management/users/view.html">
-                                        <div class="symbol-label fs-3 bg-light-danger text-danger">M</div>
-                                    </a>
-                                </div>
-                                <!--end::Avatar-->
-                                <!--begin::User details-->
-                                <div class="d-flex flex-column">
-                                    <a href="../../demo1/dist/apps/user-management/users/view.html"
-                                        class="mb-1 text-gray-800 text-hover-primary">Melody Macy</a>
-                                    <span>melody@altbox.com</span>
-                                </div>
-                                <!--begin::User details-->
-                            </td>
-                            <!--end::User=-->
-                            <!--begin::Role=-->
-                            <td>Analyst</td>
-                            <!--end::Role=-->
-                            <!--begin::Last login=-->
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->email }}</td>
+                            @php
+                            $result = "";
+                            if($user->role == "admin"){
+                            $result = "Admin";
+                            }
+                            elseif($user->role == "staf"){
+                            $result = "Staf";
+                            }
+                            @endphp
+                            <td>{{ $result }}</td>
+                            @php
+                            $colour = "";
+                            $result = "";
+                            if ($user->is_active == 1) {
+                            $colour = "success";
+                            $result = "Aktif";
+                            } else {
+                            $colour = "danger";
+                            $result = "Non Aktif";
+                            }
+                            @endphp
                             <td>
-                                <div class="badge badge-light fw-bolder">20 mins ago</div>
+                                <div class="badge badge-light-{{ $colour }} fw-bolder">{{ $result }}</div>
                             </td>
-                            <!--end::Last login=-->
-                            <!--begin::Two step=-->
-                            <td>
-                                <div class="badge badge-light-success fw-bolder">Enabled</div>
-                            </td>
-                            <!--end::Two step=-->
-                            <!--begin::Joined-->
-                            <td>24 Jun 2022, 8:43 pm</td>
-                            <!--begin::Joined-->
-                            <!--begin::Action=-->
+                            <td>{{ $user->updated_at->format('d-m-Y H:i') }}</td>
                             <td class="text-end">
                                 <a href="#" class="btn btn-light btn-active-light-primary btn-sm"
                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Aksi
@@ -433,79 +426,7 @@
                             <!--end::Action=-->
                         </tr>
                         <!--end::Table row-->
-                        <!--begin::Table row-->
-                        <tr>
-
-                            <!--begin::User=-->
-                            <td class="d-flex align-items-center">
-                                <!--begin:: Avatar -->
-                                <div class="overflow-hidden symbol symbol-circle symbol-50px me-3">
-                                    <a href="../../demo1/dist/apps/user-management/users/view.html">
-                                        <div class="symbol-label">
-                                            <img src="assets/media/avatars/300-9.jpg" alt="Francis Mitcham"
-                                                class="w-100" />
-                                        </div>
-                                    </a>
-                                </div>
-                                <!--end::Avatar-->
-                                <!--begin::User details-->
-                                <div class="d-flex flex-column">
-                                    <a href="../../demo1/dist/apps/user-management/users/view.html"
-                                        class="mb-1 text-gray-800 text-hover-primary">Francis Mitcham</a>
-                                    <span>f.mit@kpmg.com</span>
-                                </div>
-                                <!--begin::User details-->
-                            </td>
-                            <!--end::User=-->
-                            <!--begin::Role=-->
-                            <td>Trial</td>
-                            <!--end::Role=-->
-                            <!--begin::Last login=-->
-                            <td>
-                                <div class="badge badge-light fw-bolder">3 weeks ago</div>
-                            </td>
-                            <!--end::Last login=-->
-                            <!--begin::Two step=-->
-                            <td></td>
-                            <!--end::Two step=-->
-                            <!--begin::Joined-->
-                            <td>22 Sep 2022, 8:43 pm</td>
-                            <!--begin::Joined-->
-                            <!--begin::Action=-->
-                            <td class="text-end">
-                                <a href="#" class="btn btn-light btn-active-light-primary btn-sm"
-                                    data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Aksi
-                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
-                                    <span class="m-0 svg-icon svg-icon-5">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none">
-                                            <path
-                                                d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z"
-                                                fill="black" />
-                                        </svg>
-                                    </span>
-                                    <!--end::Svg Icon--></a>
-                                <!--begin::Menu-->
-                                <div class="py-4 menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px"
-                                    data-kt-menu="true">
-                                    <!--begin::Menu item-->
-                                    <div class="px-3 menu-item">
-                                        <a href="../../demo1/dist/apps/user-management/users/view.html"
-                                            class="px-3 menu-link">Ubah</a>
-                                    </div>
-                                    <!--end::Menu item-->
-                                    <!--begin::Menu item-->
-                                    <div class="px-3 menu-item">
-                                        <a href="#" class="px-3 menu-link"
-                                            data-kt-users-table-filter="delete_row">Hapus</a>
-                                    </div>
-                                    <!--end::Menu item-->
-                                </div>
-                                <!--end::Menu-->
-                            </td>
-                            <!--end::Action=-->
-                        </tr>
-                        <!--end::Table row-->
+                        @endforeach
                     </tbody>
                     <!--end::Table body-->
                 </table>
