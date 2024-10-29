@@ -4,7 +4,7 @@
 
 <head>
     <base href="">
-    <title>Aplikasi Kearsipan Digital | Dashboards</title>
+    <title>Aplikasi Kearsipan Digital | Dashboard</title>
     <meta charset="utf-8" />
     <meta name="description"
         content="The most advanced Bootstrap Admin Theme on Themeforest trusted by 94,000 beginners and professionals. Multi-demo, Dark Mode, RTL support and complete React, Angular, Vue &amp; Laravel versions. Grab your copy now and get life-time updates for free." />
@@ -30,6 +30,7 @@
     <link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
     <link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
     <!--end::Global Stylesheets Bundle-->
+    @yield('custom-css')
 </head>
 <!--end::Head-->
 
@@ -49,13 +50,19 @@
                 @include('admin.layouts.header')
                 <!--begin::Content-->
                 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-                   @yield('page-title')
+                    <!--begin::Toolbar-->
+                    <div class="toolbar" id="kt_toolbar">
+                        <!--begin::Container-->
+                        <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
+                            @yield('page-title')
+                        </div>
+                        <!--end::Container-->
+                    </div>
+                    <!--end::Toolbar-->
                     <!--begin::Post-->
                     <div class="post d-flex flex-column-fluid" id="kt_post">
                         <!--begin::Container-->
-                        <div id="kt_content_container" class="container-xxl">
-                            @yield('content')
-                        </div>
+                        @yield('content')
                         <!--end::Container-->
                     </div>
                     <!--end::Post-->
@@ -91,6 +98,7 @@
     <script src="assets/js/custom/utilities/modals/users-search.js"></script>
     <!--end::Page Custom Javascript-->
     <!--end::Javascript-->
+    @yield('custom-js')
 </body>
 <!--end::Body-->
 

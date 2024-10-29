@@ -46,7 +46,7 @@
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
                         </span>
-                        <span class="menu-title">Dashboards</span>
+                        <span class="menu-title">Dashboard</span>
                     </a>
                     <a class="menu-link" href="#">
                         <span class="menu-bullet">
