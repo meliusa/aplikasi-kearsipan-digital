@@ -5,7 +5,7 @@
     data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
     class="flex-wrap mb-5 page-title d-flex align-items-center me-3 mb-lg-0">
     <!--begin::Title-->
-    <h1 class="my-1 d-flex align-items-center text-dark fw-bolder fs-3">Manajemen Pengguna</h1>
+    <h1 class="my-1 d-flex align-items-center text-dark fw-bolder fs-3">Manajemen Dokumen</h1>
     <!--end::Title-->
     <!--begin::Separator-->
     <span class="mx-4 border-gray-300 h-20px border-start"></span>
