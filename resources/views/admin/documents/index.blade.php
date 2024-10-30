@@ -23,7 +23,7 @@
         </li>
         <!--end::Item-->
         <!--begin::Item-->
-        <li class="breadcrumb-item text-dark">Manajemen Pengguna</li>
+        <li class="breadcrumb-item text-dark">Manajemen Dokumen</li>
         <!--end::Item-->
     </ul>
     <!--end::Breadcrumb-->
@@ -77,7 +77,7 @@
                                     <rect x="4.36396" y="11.364" width="16" height="2" rx="1" fill="black" />
                                 </svg>
                             </span>
-                            <!--end::Svg Icon-->Tambah Pengguna</button>
+                            <!--end::Svg Icon-->Tambah Dokumen</button>
                         <!--end::Add user-->
                     </div>
                     <!--end::Toolbar-->
