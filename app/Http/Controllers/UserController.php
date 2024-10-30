@@ -12,11 +12,8 @@ class UserController extends Controller
      */
     public function index()
     {
-    // Mengambil semua data user dan mengurutkannya berdasarkan updated_at dari yang terbaru
-    $users = User::orderBy('updated_at', 'desc')->get();
-    
-    // Kembalikan data dalam bentuk view atau JSON (misalnya)
-    return view('admin.users.index', compact('users'));
+        $users = User::orderBy('updated_at', 'desc')->get();
+        return view('admin.users.index', compact('users'));
     }
 
 

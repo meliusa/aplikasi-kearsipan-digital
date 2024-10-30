@@ -348,10 +348,10 @@
                     <thead>
                         <!--begin::Table row-->
                         <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
-                            <th class="min-w-125px">No</th>
+                            <th class="min-w-30px">No</th>
                             <th class="min-w-125px">Pengguna</th>
-                            <th class="min-w-125px">Peran</th>
-                            <th class="min-w-125px">Status</th>
+                            <th class="min-w-100px">Peran</th>
+                            <th class="min-w-100px">Status</th>
                             <th class="min-w-125px">Terakhir Diperbarui</th>
                             <th class="text-end min-w-100px">Aksi</th>
                         </tr>

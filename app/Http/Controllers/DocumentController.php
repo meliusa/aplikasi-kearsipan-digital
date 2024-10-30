@@ -12,7 +12,8 @@ class DocumentController extends Controller
      */
     public function index()
     {
-        //
+        $documents = Document::orderBy('updated_at', 'desc')->get();
+        return view('admin.documents.index', compact('documents'));
     }
 
     /**
