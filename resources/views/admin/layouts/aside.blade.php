@@ -60,7 +60,7 @@
                         </span>
                         <span class="menu-title">Manajemen Dokumen</span>
                     </a>
-                    <a class="menu-link" href="#">
+                    <a class="menu-link" href="{{ route('file-managers.index') }}">
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
                         </span>

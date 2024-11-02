@@ -10,3 +10,5 @@ Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
 Route::resource('/users', UserController::class);
 
 Route::resource('/documents', DocumentController::class);
+
+Route::get('/file-managers', [DocumentController::class, 'fileManager'])->name('file-managers.index');

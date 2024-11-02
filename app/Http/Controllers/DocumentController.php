@@ -63,4 +63,14 @@ class DocumentController extends Controller
     {
         //
     }
+
+    public function fileManager()
+    {
+        // Retrieve only documents with status 'Public', ordered by 'updated_at'
+        $documents = Document::where('status', 'Public')
+                             ->orderBy('updated_at', 'desc')
+                             ->get();
+    
+        return view('admin.file-managers.index', compact('documents'));
+    }
 }
