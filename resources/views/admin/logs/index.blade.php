@@ -5,7 +5,7 @@
     data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
     class="flex-wrap mb-5 page-title d-flex align-items-center me-3 mb-lg-0">
     <!--begin::Title-->
-    <h1 class="my-1 d-flex align-items-center text-dark fw-bolder fs-3">Manajer File</h1>
+    <h1 class="my-1 d-flex align-items-center text-dark fw-bolder fs-3">Log Aktivitas</h1>
     <!--end::Title-->
     <!--begin::Separator-->
     <span class="mx-4 border-gray-300 h-20px border-start"></span>
@@ -23,7 +23,7 @@
         </li>
         <!--end::Item-->
         <!--begin::Item-->
-        <li class="breadcrumb-item text-dark">Manajer File</li>
+        <li class="breadcrumb-item text-dark">Log Aktivitas</li>
         <!--end::Item-->
     </ul>
     <!--end::Breadcrumb-->
@@ -335,50 +335,46 @@
                         <!--begin::Table row-->
                         <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
                             <th class="min-w-30px">No</th>
-                            <th class="min-w-125px">Judul</th>
-                            <th class="min-w-125px">Deskripsi</th>
-                            <th class="min-w-100px">Status</th>
+                            <th class="min-w-125px">Pengguna</th>
+                            <th class="min-w-125px">Tipe Aktivitas</th>
+                            <th class="min-w-100px">Deskripsi</th>
                             <th class="min-w-125px">Terakhir Diperbarui</th>
-                            <th class="text-end min-w-100px">Aksi</th>
                         </tr>
                         <!--end::Table row-->
                     </thead>
                     <!--end::Table head-->
                     <!--begin::Table body-->
                     <tbody class="text-gray-600 fw-bold">
-                        @foreach ($documents as $document)
+                        @foreach ($logs as $log)
                         <!--begin::Table row-->
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $document->title }}</td>
-                            <td>
-                                @if(Str::wordCount($document->description) > 7)
-                                {{ Str::words($document->description, 7, ' ...') }}
-                                @else
-                                {{ $document->description }}
-                                @endif
-                            </td>
                             @php
-                            $colour = "";
-                            $result = "";
-                            if ($document->status == "public") {
-                            $colour = "success";
-                            $result = "Publik";
-                            } else {
-                            $colour = "danger";
-                            $result = "Pribadi";
+                            $result = '';
+                            foreach ($users as $user) {
+                            if($user->id == $log->user_id){
+                            $result = $user->name;
                             }
+                            }
+                            @endphp
+                            <td>{{ $result }}</td>
+                            @php
+                            $activityTypes = [
+                            'create' => ['colour' => 'success', 'result' => 'Tambah Data'],
+                            'update' => ['colour' => 'warning', 'result' => 'Ubah Data'],
+                            'delete' => ['colour' => 'danger', 'result' => 'Hapus Data'],
+                            'view' => ['colour' => 'info', 'result' => 'Lihat Data'],
+                            'download' => ['colour' => 'primary', 'result' => 'Unduh Data'],
+                            ];
+
+                            $colour = $activityTypes[$log->activity_type]['colour'] ?? 'secondary';
+                            $result = $activityTypes[$log->activity_type]['result'] ?? 'Tidak Diketahui';
                             @endphp
                             <td>
                                 <div class="badge badge-light-{{ $colour }} fw-bolder">{{ $result }}</div>
                             </td>
-                            <td>{{ $document->updated_at->format('d-m-Y H:i') }}</td>
-                            <td class="text-end">
-                                <a href="../../demo1/dist/apps/user-management/users/view.html" class="btn btn-icon">
-                                    <i class="fa fa-download"></i>
-                                </a>
-                            </td>
-                            <!--end::Action=-->
+                            <td>{{ $log->description }}</td>
+                            <td>{{ $log->created_at->format('d-m-Y H:i') }}</td>
                         </tr>
                         <!--end::Table row-->
                         @endforeach
@@ -415,11 +411,6 @@
                 'order': [],
                 "pageLength": 10,
                 "lengthChange": false,
-                'columnDefs': [{
-                        orderable: false,
-                        targets: 5
-                    }, // Disable ordering on column 6 (actions)                
-                ]
             });
 
             // Re-init functions on every table re-draw -- more info: https://datatables.net/reference/event/draw

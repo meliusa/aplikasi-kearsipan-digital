@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Log;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class LogController extends Controller
@@ -12,7 +13,9 @@ class LogController extends Controller
      */
     public function index()
     {
-        //
+        $logs = Log::orderBy('created_at', 'desc')->get();
+        $users = User::all();
+        return view('admin.logs.index', compact('logs','users'));
     }
 
     /**

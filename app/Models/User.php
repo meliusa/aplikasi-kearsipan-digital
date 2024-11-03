@@ -44,4 +44,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'is_active' => 'boolean',
     ];
+
+    public function logs()
+    {
+        return $this->hasMany(User::class);
+    }
 }
