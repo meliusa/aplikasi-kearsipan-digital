@@ -91,11 +91,11 @@
                                 <!--begin::Modal header-->
                                 <div class="modal-header" id="kt_modal_add_user_header">
                                     <!--begin::Modal title-->
-                                    <h2 class="fw-bolder">Add User</h2>
+                                    <h2 class="fw-bolder">Tambah Pengguna</h2>
                                     <!--end::Modal title-->
                                     <!--begin::Close-->
                                     <div class="btn btn-icon btn-sm btn-active-icon-primary"
-                                        data-kt-users-modal-action="close">
+                                        data-kt-users-modal-action="close" id="closeModalButton">
                                         <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
                                         <span class="svg-icon svg-icon-1">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -126,16 +126,17 @@
                                             <!--begin::Input group-->
                                             <div class="fv-row mb-7">
                                                 <!--begin::Label-->
-                                                <label class="mb-5 d-block fw-bold fs-6">Avatar</label>
+                                                <label class="mb-5 d-block fw-bold fs-6">Foto</label>
                                                 <!--end::Label-->
                                                 <!--begin::Image input-->
                                                 <div class="image-input image-input-outline" data-kt-image-input="true"
                                                     style="background-image: url('assets/media/svg/avatars/blank.svg')">
                                                     <!--begin::Preview existing avatar-->
                                                     <div class="image-input-wrapper w-125px h-125px"
-                                                        style="background-image: url(assets/media/avatars/300-6.jpg);">
+                                                        style="background-image: url('assets/media/svg/avatars/blank.svg')">
                                                     </div>
                                                     <!--end::Preview existing avatar-->
+
                                                     <!--begin::Label-->
                                                     <label
                                                         class="shadow btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body"
@@ -143,24 +144,27 @@
                                                         title="Change avatar">
                                                         <i class="bi bi-pencil-fill fs-7"></i>
                                                         <!--begin::Inputs-->
-                                                        <input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
+                                                        <input type="file" name="avatar" accept=".png, .jpg, .jpeg"
+                                                            onchange="handleFileChange(this)" />
                                                         <input type="hidden" name="avatar_remove" />
                                                         <!--end::Inputs-->
                                                     </label>
                                                     <!--end::Label-->
+
                                                     <!--begin::Cancel-->
-                                                    <span
+                                                    <span id="cancelButton"
                                                         class="shadow btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body"
                                                         data-kt-image-input-action="cancel" data-bs-toggle="tooltip"
-                                                        title="Cancel avatar">
+                                                        title="Cancel avatar" style="display: none;">
                                                         <i class="bi bi-x fs-2"></i>
                                                     </span>
                                                     <!--end::Cancel-->
+
                                                     <!--begin::Remove-->
-                                                    <span
+                                                    <span id="removeButton"
                                                         class="shadow btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body"
                                                         data-kt-image-input-action="remove" data-bs-toggle="tooltip"
-                                                        title="Remove avatar">
+                                                        title="Remove avatar" style="display: none;">
                                                         <i class="bi bi-x fs-2"></i>
                                                     </span>
                                                     <!--end::Remove-->
@@ -174,141 +178,37 @@
                                             <!--begin::Input group-->
                                             <div class="fv-row mb-7">
                                                 <!--begin::Label-->
-                                                <label class="mb-2 required fw-bold fs-6">Full Name</label>
+                                                <label class="mb-2 required fw-bold fs-6">Nama Lengkap</label>
                                                 <!--end::Label-->
                                                 <!--begin::Input-->
-                                                <input type="text" name="user_name"
+                                                <input type="text" name="name"
                                                     class="mb-3 form-control form-control-solid mb-lg-0"
-                                                    placeholder="Full name" value="Emma Smith" />
+                                                    placeholder="Nama Lengkap" />
                                                 <!--end::Input-->
                                             </div>
                                             <!--end::Input group-->
                                             <!--begin::Input group-->
                                             <div class="fv-row mb-7">
                                                 <!--begin::Label-->
-                                                <label class="mb-2 required fw-bold fs-6">Email</label>
+                                                <label class="mb-2 required fw-bold fs-6">Surel (Email)</label>
                                                 <!--end::Label-->
                                                 <!--begin::Input-->
-                                                <input type="email" name="user_email"
+                                                <input type="email" name="email"
                                                     class="mb-3 form-control form-control-solid mb-lg-0"
-                                                    placeholder="example@domain.com" value="smith@kpmg.com" />
+                                                    placeholder="contoh@domain.com" />
                                                 <!--end::Input-->
                                             </div>
                                             <!--end::Input group-->
                                             <!--begin::Input group-->
-                                            <div class="mb-7">
+                                            <div class="fv-row mb-7">
                                                 <!--begin::Label-->
-                                                <label class="mb-5 required fw-bold fs-6">Role</label>
+                                                <label class="mb-2 required fw-bold fs-6">Kata Sandi</label>
                                                 <!--end::Label-->
-                                                <!--begin::Roles-->
-                                                <!--begin::Input row-->
-                                                <div class="d-flex fv-row">
-                                                    <!--begin::Radio-->
-                                                    <div class="form-check form-check-custom form-check-solid">
-                                                        <!--begin::Input-->
-                                                        <input class="form-check-input me-3" name="user_role"
-                                                            type="radio" value="0" id="kt_modal_update_role_option_0"
-                                                            checked='checked' />
-                                                        <!--end::Input-->
-                                                        <!--begin::Label-->
-                                                        <label class="form-check-label"
-                                                            for="kt_modal_update_role_option_0">
-                                                            <div class="text-gray-800 fw-bolder">Administrator</div>
-                                                            <div class="text-gray-600">Best for business owners and
-                                                                company administrators</div>
-                                                        </label>
-                                                        <!--end::Label-->
-                                                    </div>
-                                                    <!--end::Radio-->
-                                                </div>
-                                                <!--end::Input row-->
-                                                <div class='my-5 separator separator-dashed'></div>
-                                                <!--begin::Input row-->
-                                                <div class="d-flex fv-row">
-                                                    <!--begin::Radio-->
-                                                    <div class="form-check form-check-custom form-check-solid">
-                                                        <!--begin::Input-->
-                                                        <input class="form-check-input me-3" name="user_role"
-                                                            type="radio" value="1" id="kt_modal_update_role_option_1" />
-                                                        <!--end::Input-->
-                                                        <!--begin::Label-->
-                                                        <label class="form-check-label"
-                                                            for="kt_modal_update_role_option_1">
-                                                            <div class="text-gray-800 fw-bolder">Developer</div>
-                                                            <div class="text-gray-600">Best for developers or people
-                                                                primarily using the API</div>
-                                                        </label>
-                                                        <!--end::Label-->
-                                                    </div>
-                                                    <!--end::Radio-->
-                                                </div>
-                                                <!--end::Input row-->
-                                                <div class='my-5 separator separator-dashed'></div>
-                                                <!--begin::Input row-->
-                                                <div class="d-flex fv-row">
-                                                    <!--begin::Radio-->
-                                                    <div class="form-check form-check-custom form-check-solid">
-                                                        <!--begin::Input-->
-                                                        <input class="form-check-input me-3" name="user_role"
-                                                            type="radio" value="2" id="kt_modal_update_role_option_2" />
-                                                        <!--end::Input-->
-                                                        <!--begin::Label-->
-                                                        <label class="form-check-label"
-                                                            for="kt_modal_update_role_option_2">
-                                                            <div class="text-gray-800 fw-bolder">Analyst</div>
-                                                            <div class="text-gray-600">Best for people who need full
-                                                                access to analytics data, but don't need to update
-                                                                business settings</div>
-                                                        </label>
-                                                        <!--end::Label-->
-                                                    </div>
-                                                    <!--end::Radio-->
-                                                </div>
-                                                <!--end::Input row-->
-                                                <div class='my-5 separator separator-dashed'></div>
-                                                <!--begin::Input row-->
-                                                <div class="d-flex fv-row">
-                                                    <!--begin::Radio-->
-                                                    <div class="form-check form-check-custom form-check-solid">
-                                                        <!--begin::Input-->
-                                                        <input class="form-check-input me-3" name="user_role"
-                                                            type="radio" value="3" id="kt_modal_update_role_option_3" />
-                                                        <!--end::Input-->
-                                                        <!--begin::Label-->
-                                                        <label class="form-check-label"
-                                                            for="kt_modal_update_role_option_3">
-                                                            <div class="text-gray-800 fw-bolder">Support</div>
-                                                            <div class="text-gray-600">Best for employees who regularly
-                                                                refund payments and respond to disputes</div>
-                                                        </label>
-                                                        <!--end::Label-->
-                                                    </div>
-                                                    <!--end::Radio-->
-                                                </div>
-                                                <!--end::Input row-->
-                                                <div class='my-5 separator separator-dashed'></div>
-                                                <!--begin::Input row-->
-                                                <div class="d-flex fv-row">
-                                                    <!--begin::Radio-->
-                                                    <div class="form-check form-check-custom form-check-solid">
-                                                        <!--begin::Input-->
-                                                        <input class="form-check-input me-3" name="user_role"
-                                                            type="radio" value="4" id="kt_modal_update_role_option_4" />
-                                                        <!--end::Input-->
-                                                        <!--begin::Label-->
-                                                        <label class="form-check-label"
-                                                            for="kt_modal_update_role_option_4">
-                                                            <div class="text-gray-800 fw-bolder">Trial</div>
-                                                            <div class="text-gray-600">Best for people who need to
-                                                                preview content data, but don't need to make any updates
-                                                            </div>
-                                                        </label>
-                                                        <!--end::Label-->
-                                                    </div>
-                                                    <!--end::Radio-->
-                                                </div>
-                                                <!--end::Input row-->
-                                                <!--end::Roles-->
+                                                <!--begin::Input-->
+                                                <input type="password" name="password"
+                                                    class="mb-3 form-control form-control-solid mb-lg-0"
+                                                    placeholder="**********"  />
+                                                <!--end::Input-->
                                             </div>
                                             <!--end::Input group-->
                                         </div>
@@ -316,11 +216,11 @@
                                         <!--begin::Actions-->
                                         <div class="text-center pt-15">
                                             <button type="reset" class="btn btn-light me-3"
-                                                data-kt-users-modal-action="cancel">Discard</button>
+                                                data-kt-users-modal-action="cancel">Batal</button>
                                             <button type="submit" class="btn btn-primary"
                                                 data-kt-users-modal-action="submit">
-                                                <span class="indicator-label">Submit</span>
-                                                <span class="indicator-progress">Please wait...
+                                                <span class="indicator-label">Simpan</span>
+                                                <span class="indicator-progress">Mohon tunggu...
                                                     <span
                                                         class="align-middle spinner-border spinner-border-sm ms-2"></span></span>
                                             </button>
@@ -467,29 +367,24 @@
 
         // Private functions
         var initUserTable = function () {
-            // Set date data order
             const tableRows = table.querySelectorAll('tbody tr');
 
-            // Init datatable --- more info on datatables: https://datatables.net/manual/
             datatable = $(table).DataTable({
                 "info": false,
                 'order': [],
                 "pageLength": 10,
                 "lengthChange": false,
                 'columnDefs': [{
-                        orderable: false,
-                        targets: 5
-                    }, // Disable ordering on column 6 (actions)                
-                ]
+                    orderable: false,
+                    targets: 5
+                }]
             });
 
-            // Re-init functions on every table re-draw -- more info: https://datatables.net/reference/event/draw
             datatable.on('draw', function () {
                 toggleToolbars();
             });
         }
 
-        // Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
         var handleSearchDatatable = () => {
             const filterSearch = document.querySelector('[data-kt-user-table-filter="search"]');
             filterSearch.addEventListener('keyup', function (e) {
@@ -498,7 +393,6 @@
         }
 
         return {
-            // Public functions  
             init: function () {
                 if (!table) {
                     return;
@@ -506,15 +400,54 @@
 
                 initUserTable();
                 handleSearchDatatable();
-
             }
         }
     }();
 
-    // On document ready
     KTUtil.onDOMContentLoaded(function () {
         KTUsersList.init();
+
+        // Add event listener for the close button
+        document.getElementById('closeModalButton').addEventListener('click', function () {
+            var modal = this.closest('.modal');
+            if (modal) {
+                $(modal).modal('hide'); // Hide the modal using Bootstrap's modal method
+            }
+        });
     });
+
+    // Reset form fields when the "Cancel" button is clicked
+    document.querySelectorAll('.modal').forEach(modal => {
+        modal.addEventListener('hidden.bs.modal', function () {
+            const form = this.querySelector('form');
+            if (form) {
+                form.reset();
+            }
+        });
+    });
+
+    function handleFileChange(input) {
+        const wrapper = document.querySelector('.image-input-wrapper');
+        const cancelButton = document.getElementById('cancelButton');
+        const removeButton = document.getElementById('removeButton');
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                // Update the image preview
+                wrapper.style.backgroundImage = `url(${e.target.result})`;
+                // Show the cancel and remove buttons
+                cancelButton.style.display = 'inline-block';
+                removeButton.style.display = 'inline-block';
+            }
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            // Reset to blank image and hide buttons if no file is selected
+            wrapper.style.backgroundImage = "url('assets/media/svg/avatars/blank.svg')";
+            cancelButton.style.display = 'none';
+            removeButton.style.display = 'none';
+        }
+    }
 
 </script>
 @endsection
