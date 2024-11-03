@@ -205,9 +205,9 @@
                                                 <label class="mb-2 required fw-bold fs-6">Kata Sandi</label>
                                                 <!--end::Label-->
                                                 <!--begin::Input-->
-                                                <input type="password" name="password"
+                                                <input type="password" name="password1"
                                                     class="mb-3 form-control form-control-solid mb-lg-0"
-                                                    placeholder="**********"  />
+                                                    placeholder="**********" />
                                                 <!--end::Input-->
                                             </div>
                                             <!--end::Input group-->
