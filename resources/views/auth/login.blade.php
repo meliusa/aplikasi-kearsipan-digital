@@ -14,14 +14,14 @@
             <!--begin::Heading-->
             <div class="mb-10 text-center">
                 <!--begin::Title-->
-                <h1 class="mb-3 text-dark">Masuk Ke Aplikasi Kearsipan Digital Pada SD Negeri 010 Sagulung</h1>
+                <h1 class="mb-3 text-dark">Login ke Aplikasi Kearsipan Digital di SD Negeri 010 Sagulung</h1>
                 <!--end::Title-->
             </div>
             <!--begin::Heading-->
             <!--begin::Input group-->
             <div class="mb-10 fv-row">
                 <!--begin::Label-->
-                <label class="form-label fs-6 fw-bolder text-dark">Surel (Email)</label>
+                <label class="form-label fs-6 fw-bolder text-dark">Email</label>
                 <!--end::Label-->
                 <!--begin::Input-->
                 <input class="form-control form-control-lg form-control-solid" type="text" name="email"
@@ -37,8 +37,8 @@
                     <label class="mb-0 form-label fw-bolder text-dark fs-6">Kata Sandi</label>
                     <!--end::Label-->
                     <!--begin::Link-->
-                    <a href="#"
-                        class="link-primary fs-6 fw-bolder">Lupa Kata Sandi ?</a>
+                    <a href="#" class="link-primary fs-6 fw-bolder" data-bs-toggle="modal"
+                        data-bs-target="#kt_modal_1">Lupa Kata Sandi?</a>
                     <!--end::Link-->
                 </div>
                 <!--end::Wrapper-->
@@ -52,7 +52,7 @@
             <div class="text-center">
                 <!--begin::Submit button-->
                 <button type="submit" id="kt_sign_in_submit" class="mb-5 btn btn-lg btn-primary w-100">
-                    <span class="indicator-label">Masuk</span>
+                    <span class="indicator-label">Login</span>
                     <span class="indicator-progress">Mohon tunggu...
                         <span class="align-middle spinner-border spinner-border-sm ms-2"></span></span>
                 </button>
@@ -66,3 +66,4 @@
 </div>
 <!--end::Content-->
 @endsection
+@include('auth.forgot-password')
