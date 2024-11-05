@@ -64,14 +64,34 @@
                                  <!--end::Avatar-->
                                  <!--begin::Username-->
                                  <div class="d-flex flex-column">
-                                     <div class="fw-bolder d-flex align-items-center fs-5">Max Smith
+                                     <div class="fw-bolder d-flex align-items-center fs-5">{{ Auth::user()->name }}
+                                         @php
+                                         $result = '';
+                                         if (Auth::user()->role == "admin") {
+                                         $result = "Admin";
+                                         }else{
+                                         $result = "Staf";
+                                         }
+                                         @endphp
                                          <span
-                                             class="px-2 py-1 badge badge-light-success fw-bolder fs-8 ms-2">Pro</span>
+                                             class="px-2 py-1 badge badge-light-success fw-bolder fs-8 ms-2">{{ $result }}
+                                         </span>
                                      </div>
-                                     <a href="#" class="fw-bold text-muted text-hover-primary fs-7">max@kt.com</a>
+                                     <a href="#"
+                                         class="fw-bold text-muted text-hover-primary fs-7">{{ Auth::user()->email }}
+                                     </a>
                                  </div>
                                  <!--end::Username-->
                              </div>
+                             <!--begin::Menu separator-->
+                             <div class="my-2 separator"></div>
+                             <!--end::Menu separator-->
+                             <!--begin::Menu item-->
+                             <div class="px-3 menu-item">
+                                 <a href="#" class="px-5 menu-link">Ganti
+                                     Kata Sandi</a>
+                             </div>
+                             <!--end::Menu item-->
                          </div>
                          <!--end::Menu item-->
                      </div>
