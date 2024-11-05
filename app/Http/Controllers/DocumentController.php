@@ -13,11 +13,17 @@ class DocumentController extends Controller
      */
     public function index()
     {
-         // Ambil dokumen yang hanya memiliki user_id yang sama dengan id pengguna yang sedang login
-        $documents = Document::where('user_id', Auth::id())  // Filter berdasarkan user_id
-        ->orderBy('updated_at', 'desc')  // Urutkan berdasarkan updated_at
-        ->get();
-
+        // Cek apakah pengguna yang login adalah admin
+        if (Auth::user()->role == "admin") {
+            // Jika admin, tampilkan semua dokumen
+            $documents = Document::orderBy('updated_at', 'desc')->get();
+        } else {
+            // Jika bukan admin (misalnya staf), hanya tampilkan dokumen yang user_id-nya sama dengan id pengguna yang login
+            $documents = Document::where('user_id', Auth::id())  // Filter berdasarkan user_id yang sesuai dengan pengguna yang login
+                                  ->orderBy('updated_at', 'desc')  // Urutkan berdasarkan updated_at
+                                  ->get();
+        }
+    
         // Kirim data dokumen ke view
         return view('admin.documents.index', compact('documents'));
     }
