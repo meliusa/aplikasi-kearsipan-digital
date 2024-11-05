@@ -197,6 +197,20 @@
                                                 <!--end::Input row-->
                                                 <div class='my-5 separator separator-dashed'></div>
                                                 <!--end::Roles-->
+                                                <!--begin::Input group-->
+                                                <div class="fv-row mb-7">
+                                                    <!--begin::Label-->
+                                                    <label class="mb-2 required fw-bold fs-6">Unggah File</label>
+                                                    <!--end::Label-->
+                                                    <!--begin::Input-->
+                                                    <input type="file" name="file_path"
+                                                        class="mb-3 form-control form-control-solid mb-lg-0" />
+                                                    <!--end::Input-->
+                                                    <!--begin::Hint-->
+                                                    <span class="form-text text-muted">Max file size is 1MB</span>
+                                                    <!--end::Hint-->
+                                                </div>
+                                                <!--end::Input group-->
                                             </div>
                                             <!--end::Input group-->
                                         </div>
@@ -294,7 +308,7 @@
                                     <!--begin::Menu item-->
                                     <div class="px-3 menu-item">
                                         <a href="../../demo1/dist/apps/user-management/users/view.html"
-                                            class="px-3 menu-link">Unduh</a>
+                                            class="px-3 menu-link">Detail</a>
                                     </div>
                                     <!--end::Menu item-->
                                     <!--begin::Menu item-->
