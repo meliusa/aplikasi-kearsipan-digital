@@ -35,6 +35,11 @@
 <div class="post d-flex flex-column-fluid" id="kt_post">
     <!--begin::Container-->
     <div id="kt_content_container" class="container-xxl">
+        @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+        @endif
         <!--begin::Card-->
         <div class="card">
             <!--begin::Card header-->
@@ -114,8 +119,9 @@
                                 <!--begin::Modal body-->
                                 <div class="mx-5 modal-body scroll-y mx-xl-15 my-7">
                                     <!--begin::Form-->
-                                    <form id="kt_modal_add_user_form" class="form" action="#">
-                                        <!--begin::Scroll-->
+                                    <form id="kt_modal_add_user_form" class="form" action="{{ route('users.store') }}"
+                                        method="POST" enctype="multipart/form-data">
+                                        @csrf
                                         <div class="d-flex flex-column scroll-y me-n7 pe-7"
                                             id="kt_modal_add_user_scroll" data-kt-scroll="true"
                                             data-kt-scroll-activate="{default: false, lg: true}"
@@ -123,97 +129,83 @@
                                             data-kt-scroll-dependencies="#kt_modal_add_user_header"
                                             data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
                                             data-kt-scroll-offset="300px">
-                                            <!--begin::Input group-->
+
+                                            <!-- Foto -->
                                             <div class="fv-row mb-7">
-                                                <!--begin::Label-->
                                                 <label class="mb-5 d-block fw-bold fs-6">Foto</label>
-                                                <!--end::Label-->
-                                                <!--begin::Image input-->
                                                 <div class="image-input image-input-outline" data-kt-image-input="true"
                                                     style="background-image: url('assets/media/svg/avatars/blank.svg')">
-                                                    <!--begin::Preview existing avatar-->
                                                     <div class="image-input-wrapper w-125px h-125px"
                                                         style="background-image: url('assets/media/svg/avatars/blank.svg')">
                                                     </div>
-                                                    <!--end::Preview existing avatar-->
-
-                                                    <!--begin::Label-->
                                                     <label
                                                         class="shadow btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body"
                                                         data-kt-image-input-action="change" data-bs-toggle="tooltip"
                                                         title="Change avatar">
                                                         <i class="bi bi-pencil-fill fs-7"></i>
-                                                        <!--begin::Inputs-->
                                                         <input type="file" name="avatar" accept=".png, .jpg, .jpeg"
                                                             onchange="handleFileChange(this)" />
                                                         <input type="hidden" name="avatar_remove" />
-                                                        <!--end::Inputs-->
                                                     </label>
-                                                    <!--end::Label-->
-
-                                                    <!--begin::Cancel-->
                                                     <span id="cancelButton"
                                                         class="shadow btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body"
                                                         data-kt-image-input-action="cancel" data-bs-toggle="tooltip"
                                                         title="Cancel avatar" style="display: none;">
                                                         <i class="bi bi-x fs-2"></i>
                                                     </span>
-                                                    <!--end::Cancel-->
-
-                                                    <!--begin::Remove-->
                                                     <span id="removeButton"
                                                         class="shadow btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body"
                                                         data-kt-image-input-action="remove" data-bs-toggle="tooltip"
                                                         title="Remove avatar" style="display: none;">
                                                         <i class="bi bi-x fs-2"></i>
                                                     </span>
-                                                    <!--end::Remove-->
                                                 </div>
-                                                <!--end::Image input-->
-                                                <!--begin::Hint-->
                                                 <div class="form-text">Allowed file types: png, jpg, jpeg.</div>
-                                                <!--end::Hint-->
                                             </div>
-                                            <!--end::Input group-->
-                                            <!--begin::Input group-->
+
+                                            <!-- Nama Lengkap -->
                                             <div class="fv-row mb-7">
-                                                <!--begin::Label-->
                                                 <label class="mb-2 required fw-bold fs-6">Nama Lengkap</label>
-                                                <!--end::Label-->
-                                                <!--begin::Input-->
                                                 <input type="text" name="name"
                                                     class="mb-3 form-control form-control-solid mb-lg-0"
                                                     placeholder="Nama Lengkap" />
-                                                <!--end::Input-->
                                             </div>
-                                            <!--end::Input group-->
-                                            <!--begin::Input group-->
+
+                                            <!-- Surel -->
                                             <div class="fv-row mb-7">
-                                                <!--begin::Label-->
                                                 <label class="mb-2 required fw-bold fs-6">Surel (Email)</label>
-                                                <!--end::Label-->
-                                                <!--begin::Input-->
                                                 <input type="email" name="email"
                                                     class="mb-3 form-control form-control-solid mb-lg-0"
                                                     placeholder="contoh@domain.com" />
-                                                <!--end::Input-->
                                             </div>
-                                            <!--end::Input group-->
-                                            <!--begin::Input group-->
+
+                                            <!-- Kata Sandi -->
                                             <div class="fv-row mb-7">
-                                                <!--begin::Label-->
                                                 <label class="mb-2 required fw-bold fs-6">Kata Sandi</label>
-                                                <!--end::Label-->
-                                                <!--begin::Input-->
-                                                <input type="password" name="password1"
+                                                <input type="password" name="password"
                                                     class="mb-3 form-control form-control-solid mb-lg-0"
                                                     placeholder="**********" />
-                                                <!--end::Input-->
                                             </div>
-                                            <!--end::Input group-->
+
+                                            <!-- Role -->
+                                            <div class="fv-row mb-7">
+                                                <label class="mb-2 required fw-bold fs-6">Role</label>
+                                                <div class="d-flex">
+                                                    <label class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="role"
+                                                            value="admin" checked />
+                                                        <span class="form-check-label">Admin</span>
+                                                    </label>
+                                                    <label class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="role"
+                                                            value="staf" />
+                                                        <span class="form-check-label">Staf</span>
+                                                    </label>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <!--end::Scroll-->
-                                        <!--begin::Actions-->
+
+                                        <!-- Actions -->
                                         <div class="text-center pt-15">
                                             <button type="reset" class="btn btn-light me-3"
                                                 data-kt-users-modal-action="cancel">Batal</button>
@@ -225,8 +217,8 @@
                                                         class="align-middle spinner-border spinner-border-sm ms-2"></span></span>
                                             </button>
                                         </div>
-                                        <!--end::Actions-->
                                     </form>
+
                                     <!--end::Form-->
                                 </div>
                                 <!--end::Modal body-->
@@ -270,7 +262,8 @@
                                     <a href="../../demo1/dist/apps/user-management/users/view.html">
                                         <div class="symbol-label">
                                             {{-- <img src="assets/media/avatars/300-6.jpg" alt="Emma Smith" class="w-100" /> --}}
-                                            <img src="" alt="Foto" class="w-100" />
+                                            <img src="{{ asset('storage/' . $user->photo) }}" alt="Foto"
+                                                class="w-100" />
                                         </div>
                                     </a>
                                 </div>
@@ -294,18 +287,17 @@
                             @endphp
                             <td>{{ $result }}</td>
                             @php
-                            $colour = "";
-                            $result = "";
-                            if ($user->is_active == 1) {
-                            $colour = "success";
-                            $result = "Aktif";
-                            } else {
-                            $colour = "danger";
-                            $result = "Non Aktif";
-                            }
+                            // Jika is_active == 1 maka checked, jika tidak, unchecked
+                            $isChecked = $user->is_active == 1 ? 'checked' : '';
                             @endphp
                             <td>
-                                <div class="badge badge-light-{{ $colour }} fw-bolder">{{ $result }}</div>
+                                <div class="form-check form-switch form-check-custom form-check-solid">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexSwitchChecked"
+                                        {{ $isChecked }} />
+                                    <label class="form-check-label" for="flexSwitchChecked">
+                                        Aktif
+                                    </label>
+                                </div>
                             </td>
                             <td>{{ $user->updated_at->format('d-m-Y H:i') }}</td>
                             <td class="text-end">

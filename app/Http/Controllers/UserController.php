@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -30,10 +31,34 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = $request->password;
+        // Validasi form
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'role' => 'required|in:admin,staf',
+        ]);
+
+        // Jika ada foto yang diupload
+        if ($request->hasFile('avatar')) {
+            $avatarPath = $request->file('avatar')->store('avatars', 'public');
+        } else {
+            $avatarPath = null;
+        }
+
+        // Membuat pengguna baru
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'role' => $validated['role'],  // Menyimpan nilai role yang dipilih
+            'is_active' => 1,
+            'photo' => $avatarPath,
+        ]);
+
+        // Redirect atau memberikan response yang sesuai
+        return redirect()->route('users.index')->with('success', 'Pengguna berhasil disimpan!');
     }
 
     /**
