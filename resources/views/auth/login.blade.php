@@ -10,7 +10,8 @@
     <!--begin::Wrapper-->
     <div class="p-10 mx-auto rounded shadow-sm w-lg-500px bg-body p-lg-15">
         <!--begin::Form-->
-        <form class="form w-100" novalidate="novalidate" id="kt_sign_in_form" action="#">
+        <form class="form w-100" novalidate="novalidate" id="kt_sign_in_form" action="{{ route('login') }}" method="POST">
+            @csrf
             <!--begin::Heading-->
             <div class="mb-10 text-center">
                 <!--begin::Title-->
@@ -59,6 +60,15 @@
                 <!--end::Submit button-->
             </div>
             <!--end::Actions-->
+            @if($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
         </form>
         <!--end::Form-->
     </div>
@@ -148,7 +158,7 @@
                                         "";
                                     form.querySelector('[name="password"]')
                                         .value = "";
-                                    //form.submit(); // submit form
+                                    form.submit(); // submit form
                                 }
                             });
                         }, 2000);
