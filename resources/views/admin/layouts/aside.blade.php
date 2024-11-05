@@ -48,12 +48,14 @@
                         </span>
                         <span class="menu-title">Dashboard</span>
                     </a>
+                    @if(Auth::user()->role === 'admin')
                     <a class="menu-link" href="{{ route('users.index') }}">
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
                         </span>
                         <span class="menu-title">Manajemen Pengguna</span>
                     </a>
+                    @endif
                     <a class="menu-link" href="{{ route('documents.index') }}">
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>

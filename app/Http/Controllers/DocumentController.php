@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Document;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DocumentController extends Controller
 {
@@ -12,7 +13,12 @@ class DocumentController extends Controller
      */
     public function index()
     {
-        $documents = Document::orderBy('updated_at', 'desc')->get();
+         // Ambil dokumen yang hanya memiliki user_id yang sama dengan id pengguna yang sedang login
+        $documents = Document::where('user_id', Auth::id())  // Filter berdasarkan user_id
+        ->orderBy('updated_at', 'desc')  // Urutkan berdasarkan updated_at
+        ->get();
+
+        // Kirim data dokumen ke view
         return view('admin.documents.index', compact('documents'));
     }
 

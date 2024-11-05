@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Log;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LogController extends Controller
 {
@@ -13,9 +14,20 @@ class LogController extends Controller
      */
     public function index()
     {
+      // Cek apakah pengguna yang login adalah admin
+    if (Auth::user()->role == "admin") {
+        // Jika admin, ambil semua log dan semua user
         $logs = Log::orderBy('created_at', 'desc')->get();
-        $users = User::all();
-        return view('admin.logs.index', compact('logs','users'));
+        $users = User::all(); // Ambil semua pengguna
+    } else {
+        // Jika bukan admin (misalnya staf), ambil log berdasarkan user_id yang login
+        $logs = Log::where('user_id', Auth::id())
+                   ->orderBy('created_at', 'desc')
+                   ->get();
+        $users = User::where('id', Auth::id())->get(); // Ambil hanya pengguna yang sedang login
+    }
+
+    return view('admin.logs.index', compact('logs', 'users'));
     }
 
     /**
