@@ -114,7 +114,10 @@
                                 <!--begin::Modal body-->
                                 <div class="mx-5 modal-body scroll-y mx-xl-15 my-7">
                                     <!--begin::Form-->
-                                    <form id="kt_modal_add_user_form" class="form" action="#">
+                                    <form id="kt_modal_add_user_form" class="form"
+                                        action="{{ route('documents.store') }}" method="POST"
+                                        enctype="multipart/form-data">
+                                        @csrf
                                         <!--begin::Scroll-->
                                         <div class="d-flex flex-column scroll-y me-n7 pe-7"
                                             id="kt_modal_add_user_scroll" data-kt-scroll="true"
@@ -308,7 +311,8 @@
                                     <!--begin::Menu item-->
                                     <div class="px-3 menu-item">
                                         <a href="../../demo1/dist/apps/user-management/users/view.html"
-                                            class="px-3 menu-link">Detail</a>
+                                            class="px-3 menu-link" data-bs-toggle="modal"
+                                            data-bs-target="#kt_modal_1">Detail</a>
                                     </div>
                                     <!--end::Menu item-->
                                     <!--begin::Menu item-->
@@ -342,6 +346,37 @@
     <!--end::Container-->
 </div>
 <!--end::Post-->
+
+<div class="modal fade" tabindex="-1" id="kt_modal_1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detail</h5>
+
+                <!--begin::Close-->
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
+                    aria-label="Close">
+                    <span class="svg-icon svg-icon-2x"></span>
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <div class="modal-body">
+                <p><strong>Judul:</strong> </p>
+                <p><strong>Deskripsi:</strong> </p>
+                <p><strong>File:</strong> </p>
+                <p><strong>Status:</strong> </p>
+                <p><strong>Pengguna:</strong> </p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @endsection
 @section('custom-js')
 <script>

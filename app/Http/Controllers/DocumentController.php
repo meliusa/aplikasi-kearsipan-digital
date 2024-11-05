@@ -41,7 +41,36 @@ class DocumentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validasi form
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'file_path' => 'required|file|mimes:pdf,doc,docx,png,jpg,jpeg|max:1024', // file maksimal 1MB
+            'user_role' => 'required|in:0,1', // Public/Private status
+        ]);
+
+        // Mengambil user yang sedang login
+        $userId = Auth::id();
+
+        // Jika ada file yang diupload, simpan ke storage
+        if ($request->hasFile('file_path')) {
+            // Menyimpan file ke dalam folder 'documents' di storage public
+            $filePath = $request->file('file_path')->store('documents', 'public');
+        } else {
+            $filePath = null;
+        }
+
+        // Menyimpan data dokumen ke database
+        $document = Document::create([
+            'title' => $validated['title'],
+            'description' => $validated['description'] ?? null,
+            'file_path' => $filePath,
+            'status' => $validated['user_role'] == 1 ? 'public' : 'private', // Public jika 1, private jika 0
+            'user_id' => $userId, // Menyimpan user_id yang sedang login
+        ]);
+
+        // Redirect setelah menyimpan data
+        return redirect()->route('documents.index')->with('success', 'Dokumen berhasil disimpan!');
     }
 
     /**
@@ -85,4 +114,5 @@ class DocumentController extends Controller
     
         return view('admin.file-managers.index', compact('documents'));
     }
+    
 }

@@ -12,9 +12,14 @@ Route::post('login', [LoginController::class, 'login']);
 
 Route::middleware(['auth'])->group(function () {
     Route::get('logout', [LoginController::class, 'logout'])->name('logout');
+
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
+
     Route::resource('/users', UserController::class);
+
     Route::resource('/documents', DocumentController::class);
+
     Route::get('/file-managers', [DocumentController::class, 'fileManager'])->name('file-managers.index');
+    
     Route::resource('/logs', LogController::class);
 });
