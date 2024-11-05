@@ -82,9 +82,8 @@
 
     <!--begin::Footer-->
     <div class="px-5 pt-5 aside-footer flex-column-auto pb-7" id="kt_aside_footer">
-        <a href="../../demo1/dist/documentation/getting-started.html" class="btn btn-custom btn-primary w-100"
-            data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss-="click"
-            title="200+ in-house components and 3rd-party plugins">
+        <a href="{{ route('logout') }}" class="btn btn-custom btn-primary w-100" data-bs-toggle="tooltip"
+            data-bs-trigger="hover" data-bs-dismiss-="click" title="200+ in-house components and 3rd-party plugins">
             <span class="btn-label">Keluar</span>
         </a>
     </div>
