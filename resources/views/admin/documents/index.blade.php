@@ -311,8 +311,8 @@
                                     <!--begin::Menu item-->
                                     <div class="px-3 menu-item">
                                         <a href="../../demo1/dist/apps/user-management/users/view.html"
-                                            class="px-3 menu-link" data-bs-toggle="modal"
-                                            data-bs-target="#kt_modal_1">Detail</a>
+                                            class="px-3 menu-link" data-bs-toggle="modal" data-bs-target="#kt_modal_1"
+                                            onclick="showDocumentDetail({{ $document->id }})">Detail</a>
                                     </div>
                                     <!--end::Menu item-->
                                     <!--begin::Menu item-->
@@ -362,11 +362,40 @@
             </div>
 
             <div class="modal-body">
-                <p><strong>Judul:</strong> </p>
-                <p><strong>Deskripsi:</strong> </p>
-                <p><strong>File:</strong> </p>
-                <p><strong>Status:</strong> </p>
-                <p><strong>Pengguna:</strong> </p>
+                <div class="mb-3">
+                    <strong>Judul:</strong>
+                    <span id="modal-judul" class="ms-2"></span>
+                </div>
+
+                <div class="mb-3">
+                    <strong>Deskripsi:</strong>
+                    <span id="modal-deskripsi" class="ms-2"></span>
+                </div>
+
+                <div class="mb-3">
+                    <strong>File:</strong>
+                    <span id="modal-file" class="ms-2"></span>
+                </div>
+
+                <div class="mb-3">
+                    <strong>Status:</strong>
+                    <span id="modal-status" class="ms-2"></span>
+                </div>
+
+                <div class="mb-3">
+                    <strong>Pengguna:</strong>
+                    <span id="modal-pengguna" class="ms-2"></span>
+                </div>
+
+                <div class="mb-3">
+                    <strong>Tanggal Diupload:</strong>
+                    <span id="modal-tanggal" class="ms-2"></span>
+                </div>
+
+                <div class="mb-3">
+                    <strong>Unduh File:</strong>
+                    <a href="#" id="modal-unduh-link" target="_blank">Unduh</a>
+                </div>
             </div>
 
             <div class="modal-footer">
@@ -476,6 +505,45 @@
             cancelButton.style.display = 'none';
             removeButton.style.display = 'none';
         }
+    }
+
+    function showDocumentDetail(id) {
+        // Lakukan permintaan AJAX untuk mengambil data berdasarkan ID
+        $.ajax({
+            url: '/get-document-detail/' + id, // Endpoint API untuk mengambil detail dokumen
+            method: 'GET',
+            success: function (response) {
+                // Periksa di console untuk memastikan data yang diterima
+                console.log(response);
+
+                // Isi data ke dalam modal
+                $('#modal-judul').text(response.title);
+                $('#modal-deskripsi').text(response.description);
+                $('#modal-file').text(response.file_path); // Menampilkan hanya path relatif file
+                $('#modal-status').text(response.status);
+                $('#modal-tanggal').text(response.created_at);
+
+                // Menampilkan nama pengguna dan email
+                if (response.user_name && response.user_email) {
+                    $('#modal-pengguna').text(response.user_name + ' - ' + response.user_email);
+                } else {
+                    $('#modal-pengguna').text('Data Pengguna Tidak Tersedia');
+                }
+
+                // Set link unduh dengan path relatif yang benar
+                $('#modal-unduh-link').attr('href', '/storage/' + response
+                .file_path); // Menggunakan /storage/ di sini
+                $('#modal-unduh-link').text('Unduh ' + response
+                .title); // Ubah teks tombol unduh sesuai judul dokumen
+
+                // Tampilkan modal
+                $('#kt_modal_1').modal('show');
+            },
+            error: function (xhr, status, error) {
+                console.log('AJAX Error:', error); // Menampilkan pesan error di console
+                alert('Error fetching data');
+            }
+        });
     }
 
 </script>

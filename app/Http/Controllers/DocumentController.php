@@ -114,5 +114,34 @@ class DocumentController extends Controller
     
         return view('admin.file-managers.index', compact('documents'));
     }
+
+    public function getDocumentDetail($id)
+{
+    // Ambil dokumen beserta informasi pengguna
+    $document = Document::with('user')->find($id);
+
+    // Pastikan dokumen ditemukan
+    if (!$document) {
+        return response()->json(['error' => 'Dokumen tidak ditemukan'], 404);
+    }
+
+    // Ambil nama dan email pengguna
+    $user_name = $document->user->name;
+    $user_email = $document->user->email;
+
+    // Mengembalikan hanya path relatif file (tanpa base URL)
+    $file_path = $document->file_path;  // Ini adalah path relatif
+
+    // Mengembalikan data dokumen beserta informasi pengguna dan file path
+    return response()->json([
+        'title' => $document->title,
+        'description' => $document->description,
+        'file_path' => $file_path,  // Path relatif
+        'status' => $document->status,
+        'user_name' => $user_name,
+        'user_email' => $user_email,
+        'created_at' => $document->created_at->format('d M Y H:i')
+    ]);
+}
     
 }

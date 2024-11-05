@@ -45,4 +45,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(User::class);
     }
+
+     // Relasi dengan model Document
+     public function documents()
+     {
+         return $this->hasMany(Document::class);
+     }
 }

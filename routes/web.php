@@ -18,6 +18,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/users', UserController::class);
 
     Route::resource('/documents', DocumentController::class);
+    Route::get('/get-document-detail/{id}', [DocumentController::class, 'getDocumentDetail']);
 
     Route::get('/file-managers', [DocumentController::class, 'fileManager'])->name('file-managers.index');
     
