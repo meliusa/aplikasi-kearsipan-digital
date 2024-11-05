@@ -10,7 +10,8 @@
     <!--begin::Wrapper-->
     <div class="p-10 mx-auto rounded shadow-sm w-lg-500px bg-body p-lg-15">
         <!--begin::Form-->
-        <form class="form w-100" novalidate="novalidate" id="kt_sign_in_form" action="{{ route('login') }}" method="POST">
+        <form class="form w-100" novalidate="novalidate" id="kt_sign_in_form" action="{{ route('login') }}"
+            method="POST">
             @csrf
             <!--begin::Heading-->
             <div class="mb-10 text-center">
@@ -78,18 +79,15 @@
 @endsection
 @section('custom-js')
 <script>
-    "use strict";
+    "strict";
 
-    // Class definition
     var KTSigninGeneral = function () {
-        // Elements
         var form;
         var submitButton;
         var validator;
 
-        // Handle form
         var handleForm = function (e) {
-            // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
+            // Init form validation rules.
             validator = FormValidation.formValidation(
                 form, {
                     fields: {
@@ -99,7 +97,7 @@
                                     message: 'Alamat email wajib diisi'
                                 },
                                 emailAddress: {
-                                    message: 'Nilai yang dimasukkan bukan alamat email yang valid'
+                                    message: 'Alamat email tidak valid'
                                 }
                             }
                         },
@@ -117,53 +115,73 @@
                             rowSelector: '.fv-row'
                         })
                     }
-                }
-            );
+                });
 
             // Handle form submit
             submitButton.addEventListener('click', function (e) {
-                // Prevent button default action
-                e.preventDefault();
+                e.preventDefault(); // Prevent default form submission
 
                 // Validate form
                 validator.validate().then(function (status) {
                     if (status == 'Valid') {
-                        // Show loading indication
-                        submitButton.setAttribute('data-kt-indicator', 'on');
-
-                        // Disable button to avoid multiple click 
+                        submitButton.setAttribute('data-kt-indicator', 'on'); // Loading
                         submitButton.disabled = true;
 
+                        // Collect form data
+                        var formData = new FormData(form);
 
-                        // Simulate ajax request
-                        setTimeout(function () {
-                            // Hide loading indication
-                            submitButton.removeAttribute('data-kt-indicator');
+                        // Send AJAX request to server
+                        fetch("{{ route('login') }}", {
+                                method: 'POST',
+                                headers: {
+                                    'X-Requested-With': 'XMLHttpRequest',
+                                    'X-CSRF-TOKEN': document.querySelector(
+                                        'meta[name="csrf-token"]').getAttribute(
+                                        'content')
+                                },
+                                body: formData
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                submitButton.removeAttribute(
+                                    'data-kt-indicator'); // Hide loading
+                                submitButton.disabled = false;
 
-                            // Enable button
-                            submitButton.disabled = false;
-
-                            // Show message popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
-                            Swal.fire({
-                                text: "Anda berhasil masuk!",
-                                icon: "success",
-                                buttonsStyling: false,
-                                confirmButtonText: "Baik, dimengerti!",
-                                customClass: {
-                                    confirmButton: "btn btn-primary"
+                                if (data.status === 'success') {
+                                    Swal.fire({
+                                        text: data.message,
+                                        icon: 'success',
+                                        confirmButtonText: "Baik, dimengerti!",
+                                        customClass: {
+                                            confirmButton: "btn btn-primary"
+                                        }
+                                    }).then(function () {
+                                        window.location.href =
+                                            "{{ route('dashboard.index') }}"; // Redirect setelah login berhasil
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        text: data.message,
+                                        icon: 'error',
+                                        confirmButtonText: "Baik, dimengerti!",
+                                        customClass: {
+                                            confirmButton: "btn btn-primary"
+                                        }
+                                    });
                                 }
-                            }).then(function (result) {
-                                if (result.isConfirmed) {
-                                    form.querySelector('[name="email"]').value =
-                                        "";
-                                    form.querySelector('[name="password"]')
-                                        .value = "";
-                                    form.submit(); // submit form
-                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                Swal.fire({
+                                    text: "Terjadi kesalahan. Silakan coba lagi.",
+                                    icon: 'error',
+                                    confirmButtonText: "Baik, dimengerti!",
+                                    customClass: {
+                                        confirmButton: "btn btn-primary"
+                                    }
+                                });
                             });
-                        }, 2000);
                     } else {
-                        // Show error popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                         Swal.fire({
                             text: "Maaf, sepertinya terdapat beberapa kesalahan. Silakan coba lagi.",
                             icon: "error",
@@ -176,21 +194,17 @@
                     }
                 });
             });
-        }
+        };
 
-        // Public functions
         return {
-            // Initialization
             init: function () {
                 form = document.querySelector('#kt_sign_in_form');
                 submitButton = document.querySelector('#kt_sign_in_submit');
-
                 handleForm();
             }
         };
     }();
 
-    // On document ready
     KTUtil.onDOMContentLoaded(function () {
         KTSigninGeneral.init();
     });
