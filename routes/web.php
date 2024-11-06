@@ -20,6 +20,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('/documents', DocumentController::class);
     Route::get('/get-document-detail/{id}', [DocumentController::class, 'getDocumentDetail']);
+    Route::put('/documents/{document}/status', [DocumentController::class, 'updateStatus']);
 
     Route::get('/file-managers', [DocumentController::class, 'fileManager'])->name('file-managers.index');
     

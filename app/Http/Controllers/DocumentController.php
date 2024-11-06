@@ -205,5 +205,26 @@ class DocumentController extends Controller
             'created_at' => $document->created_at->format('d M Y H:i')
         ]);
     }
+
+    // Fungsi untuk memperbarui status dokumen
+    public function updateStatus(Request $request, $id)
+    {
+        // Temukan dokumen berdasarkan ID
+        $document = Document::findOrFail($id);
+
+        // Perbarui status dokumen sesuai dengan data yang diterima dari request
+        $document->status = $request->status;
+        $document->save();
+
+        // Menambahkan log aktivitas
+        Log::create([
+            'user_id' => Auth::id(),  // ID pengguna yang sedang login
+            'activity_type' => 'update',  // Jenis aktivitas
+            'description' => 'Status dokumen dengan judul "' . $document->title . '" telah diperbarui ke "' . $document->status . '"',  // Deskripsi aktivitas
+        ]);
+
+        // Mengembalikan respons JSON sukses
+        return response()->json(['status' => 'success', 'message' => 'Status dokumen berhasil diperbarui']);
+    }
     
 }

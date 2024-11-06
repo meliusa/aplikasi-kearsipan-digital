@@ -283,13 +283,14 @@
                                 @endif
                             </td>
                             @php
+                            // Cek status dokumen, jika "public" maka centang switch
                             $isChecked = $document->status == "public" ? 'checked' : '';
                             @endphp
                             <td>
                                 <div class="form-check form-switch form-check-custom form-check-solid">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexSwitchChecked"
-                                        {{ $isChecked }} />
-                                    <label class="form-check-label" for="flexSwitchChecked">
+                                    <input class="form-check-input" type="checkbox" value="" id="statusSwitch"
+                                        data-id="{{ $document->id }}" {{ $isChecked }} />
+                                    <label class="form-check-label" for="statusSwitch">
                                         Publik
                                     </label>
                                 </div>
@@ -499,7 +500,11 @@
     </div>
     <!--end::Modal dialog-->
 </div>
+<script>
+    // Menyimpan CSRF token ke dalam variable JS
+    var csrfToken = "{{ csrf_token() }}";
 
+</script>
 @endsection
 @section('custom-js')
 <script>
@@ -700,6 +705,37 @@
             }
         });
     }
+
+    $(document).ready(function () {
+        // Event listener untuk perubahan status checkbox
+        $('#statusSwitch').change(function () {
+            // Ambil ID dokumen yang terkait dengan checkbox ini
+            var documentId = $(this).data('id');
+            var newStatus = $(this).prop('checked') ? 'public' :
+                'private'; // Tentukan status berdasarkan switch
+
+            // Kirim permintaan AJAX untuk memperbarui status
+            $.ajax({
+                url: '/documents/' + documentId +
+                    '/status', // Endpoint yang sesuai di route Anda
+                method: 'PUT',
+                data: {
+                    _token: csrfToken, // Sertakan token CSRF untuk keamanan
+                    status: newStatus // Status baru
+                },
+                success: function (response) {
+                    // Tanggapan sukses dari server
+                    // alert('Status dokumen telah diperbarui!');
+                },
+                error: function () {
+                    // Jika gagal
+                    alert('Terjadi kesalahan saat memperbarui status dokumen!');
+                    // Reset checkbox ke status semula jika terjadi kesalahan
+                    $('#statusSwitch').prop('checked', !$('#statusSwitch').prop('checked'));
+                }
+            });
+        });
+    });
 
 </script>
 @endsection
