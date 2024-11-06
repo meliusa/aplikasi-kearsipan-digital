@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -55,6 +57,13 @@ class UserController extends Controller
             'role' => $validated['role'],  // Menyimpan nilai role yang dipilih
             'is_active' => 1,
             'photo' => $avatarPath,
+        ]);
+
+        // Menambahkan log aktivitas
+        Log::create([
+            'user_id' => Auth::id(),  // Menyimpan ID pengguna yang membuat log ini, jika user yang logged in membuatnya
+            'activity_type' => 'create',  // Jenis aktivitas
+            'description' => 'Pengguna baru dengan nama ' . $user->name . ' telah ditambahkan',  // Deskripsi aktivitas
         ]);
 
         // Redirect atau memberikan response yang sesuai

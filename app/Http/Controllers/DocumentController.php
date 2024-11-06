@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Document;
+use App\Models\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -69,6 +70,13 @@ class DocumentController extends Controller
             'status' => $validated['user_role'] == 1 ? 'public' : 'private', // Public jika 1, private jika 0
             'user_id' => $userId, // Menyimpan user_id yang sedang login
         ]);
+
+         // Menambahkan entri log setelah menyimpan dokumen
+        $log = Log::create([
+        'user_id' => $userId,  // Menyimpan ID pengguna yang sedang login
+        'activity_type' => 'create',  // Jenis aktivitas
+        'description' => 'Dokumen dengan judul "' . $document->title . '" telah ditambahkan',
+    ]);
 
         // Redirect setelah menyimpan data
         return redirect()->route('documents.index')->with('success', 'Dokumen berhasil disimpan!');
