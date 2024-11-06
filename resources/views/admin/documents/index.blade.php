@@ -313,15 +313,16 @@
                                     data-kt-menu="true">
                                     <!--begin::Menu item-->
                                     <div class="px-3 menu-item">
-                                        <a href="../../demo1/dist/apps/user-management/users/view.html"
-                                            class="px-3 menu-link" data-bs-toggle="modal" data-bs-target="#kt_modal_1"
+                                        <a href="#" class="px-3 menu-link" data-bs-toggle="modal"
+                                            data-bs-target="#kt_modal_1"
                                             onclick="showDocumentDetail({{ $document->id }})">Detail</a>
                                     </div>
                                     <!--end::Menu item-->
                                     <!--begin::Menu item-->
                                     <div class="px-3 menu-item">
-                                        <a href="../../demo1/dist/apps/user-management/users/view.html"
-                                            class="px-3 menu-link">Ubah</a>
+                                        <a href="#" class="px-3 menu-link" data-bs-toggle="modal"
+                                            data-bs-target="#kt_modal_edit_document"
+                                            onclick="loadDocumentData({{ $document->id }})">Ubah</a>
                                     </div>
                                     <!--end::Menu item-->
                                     <!--begin::Menu item-->
@@ -413,6 +414,135 @@
     </div>
 </div>
 
+<div class="modal fade" id="kt_modal_edit_document" tabindex="-1" aria-hidden="true">
+    <!--begin::Modal dialog-->
+    <div class="modal-dialog modal-dialog-centered mw-650px">
+        <!--begin::Modal content-->
+        <div class="modal-content">
+            <!--begin::Modal header-->
+            <div class="modal-header" id="kt_modal_edit_document_header">
+                <!--begin::Modal title-->
+                <h2 class="fw-bolder">Ubah Data</h2>
+                <!--end::Modal title-->
+                <!-- Close Button -->
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <!--end::Close-->
+            </div>
+            <!--end::Modal header-->
+            <!--begin::Modal body-->
+            <div class="mx-5 modal-body scroll-y mx-xl-15 my-7">
+                <!--begin::Form-->
+                <form id="kt_modal_edit_document_form" class="form"
+                    action="{{ route('documents.update','document-id') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <!--begin::Scroll-->
+                    <div class="d-flex flex-column scroll-y me-n7 pe-7" id="kt_modal_edit_document_scroll"
+                        data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}"
+                        data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_edit_document_header"
+                        data-kt-scroll-wrappers="#kt_modal_edit_document_scroll" data-kt-scroll-offset="300px">
+                        <!--begin::Input group-->
+                        <div class="fv-row mb-7">
+                            <!--begin::Label-->
+                            <label class="mb-2 required fw-bold fs-6">Judul</label>
+                            <!--end::Label-->
+                            <!--begin::Input-->
+                            <input type="text" name="title" class="mb-3 form-control form-control-solid mb-lg-0"
+                                placeholder="Judul" />
+                            <!--end::Input-->
+                        </div>
+                        <!--end::Input group-->
+                        <!--begin::Input group-->
+                        <div class="fv-row mb-7">
+                            <!--begin::Label-->
+                            <label class="mb-2 required fw-bold fs-6">Deskripsi</label>
+                            <!--end::Label-->
+                            <!--begin::Input-->
+                            <textarea name="description" class="form-control form-control-solid mb-lg-0" rows="5"
+                                placeholder="Deskripsi ..."></textarea>
+                            <!--end::Input-->
+                        </div>
+                        <!--end::Input group-->
+                        <!--begin::Input group-->
+                        <div class="mb-7">
+                            <!--begin::Label-->
+                            <label class="mb-5 required fw-bold fs-6">Status</label>
+                            <!--end::Label-->
+                            <!--begin::Roles-->
+                            <!--begin::Input row-->
+                            <div class="d-flex fv-row">
+                                <!--begin::Radio-->
+                                <div class="form-check form-check-custom form-check-solid">
+                                    <!--begin::Input-->
+                                    <input class="form-check-input me-3" name="user_role" type="radio" value="0"
+                                        id="kt_modal_update_role_option_0" checked='checked' />
+                                    <!--end::Input-->
+                                    <!--begin::Label-->
+                                    <label class="form-check-label" for="kt_modal_update_role_option_0">
+                                        <div class="text-gray-800 fw-bolder">Private</div>
+                                        <div class="text-gray-600">Hanya dapat dilihat oleh Anda.
+                                        </div>
+                                    </label>
+                                    <!--end::Label-->
+                                </div>
+                                <!--end::Radio-->
+                            </div>
+                            <!--end::Input row-->
+                            <div class='my-5 separator separator-dashed'></div>
+                            <!--begin::Input row-->
+                            <div class="d-flex fv-row">
+                                <!--begin::Radio-->
+                                <div class="form-check form-check-custom form-check-solid">
+                                    <!--begin::Input-->
+                                    <input class="form-check-input me-3" name="user_role" type="radio" value="1"
+                                        id="kt_modal_update_role_option_1" />
+                                    <!--end::Input-->
+                                    <!--begin::Label-->
+                                    <label class="form-check-label" for="kt_modal_update_role_option_1">
+                                        <div class="text-gray-800 fw-bolder">Public</div>
+                                        <div class="text-gray-600">Dapat dilihat oleh semua
+                                            pengguna.</div>
+                                    </label>
+                                    <!--end::Label-->
+                                </div>
+                                <!--end::Radio-->
+                            </div>
+                            <!--end::Input row-->
+                            <div class='my-5 separator separator-dashed'></div>
+                            <!--end::Roles-->
+                            <!--begin::Input group-->
+                            <div class="fv-row mb-7 file-info"></div> <!-- Menampilkan informasi file lama -->
+                            <div class="fv-row mb-7">
+                                <label class="mb-2 required fw-bold fs-6">Unggah File</label>
+                                <input type="file" name="file_path"
+                                    class="mb-3 form-control form-control-solid mb-lg-0" />
+                                <span class="form-text text-muted">Max file size is 1MB</span>
+                            </div>
+                            <!--end::Input group-->
+                        </div>
+                        <!--end::Input group-->
+                    </div>
+                    <!--end::Scroll-->
+                    <!--begin::Actions-->
+                    <div class="text-center pt-15">
+                        <button type="reset" class="btn btn-light me-3"
+                            data-kt-users-modal-action="cancel">Batal</button>
+                        <button type="submit" class="btn btn-warning" data-kt-documents-modal-action="submit">
+                            <span class="indicator-label">Ubah</span>
+                            <span class="indicator-progress">Mohon tunggu...
+                                <span class="align-middle spinner-border spinner-border-sm ms-2"></span></span>
+                        </button>
+                    </div>
+                    <!--end::Actions-->
+                </form>
+                <!--end::Form-->
+            </div>
+            <!--end::Modal body-->
+        </div>
+        <!--end::Modal content-->
+    </div>
+    <!--end::Modal dialog-->
+</div>
 
 @endsection
 @section('custom-js')
@@ -550,6 +680,31 @@
             error: function (xhr, status, error) {
                 console.log('AJAX Error:', error); // Menampilkan pesan error di console
                 alert('Error fetching data');
+            }
+        });
+    }
+
+    function loadDocumentData(id) {
+        $.ajax({
+            url: '/get-document-detail/' + id, // Memanggil route yang sudah ada
+            type: 'GET',
+            success: function (data) {
+                // Isi data dokumen ke dalam form modal
+                $('#kt_modal_edit_document_form').attr('action', '/documents/' +
+                    id); // Set action form ke route update
+                $('#kt_modal_edit_document_form input[name="title"]').val(data.title);
+                $('#kt_modal_edit_document_form textarea[name="description"]').val(data.description);
+                $('#kt_modal_edit_document_form input[name="user_role"][value="' + (data.status ===
+                    'public' ? 1 : 0) + '"]').prop('checked', true);
+
+                // Menampilkan nama file yang sudah diunggah (Jika ada)
+                if (data.file_path) {
+                    var fileUrl = '/storage/' + data.file_path; // Asumsi file disimpan di folder 'public'
+                    var fileName = data.file_path.split('/').pop(); // Mengambil nama file dari path
+                    $('#kt_modal_edit_document_form .file-info').html(
+                        '<a href="' + fileUrl + '" target="_blank">File Saat Ini: ' + fileName + '</a>'
+                    );
+                }
             }
         });
     }
