@@ -21,8 +21,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/get-document-detail/{id}', [DocumentController::class, 'getDocumentDetail']);
 
     Route::get('/file-managers', [DocumentController::class, 'fileManager'])->name('file-managers.index');
-    // Route untuk mengunduh file
-    Route::get('/document/download/{id}', [DocumentController::class, 'download'])->name('document.download');
     
     Route::resource('/logs', LogController::class);
 });
