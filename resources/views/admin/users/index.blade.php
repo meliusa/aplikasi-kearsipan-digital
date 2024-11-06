@@ -420,7 +420,7 @@
                     </div>
 
                     <div class="text-center pt-15">
-                        <button type="reset" class="btn btn-light me-3" data-bs-dismiss="modal">Batal</button>
+                        <button type="button" class="btn btn-light me-3" id="kt_modal_edit_user_reset">Batal</button>
                         <button type="submit" class="btn btn-warning">
                             <span class="indicator-label">Ubah</span>
                         </button>
@@ -527,6 +527,9 @@
     }
 
     $(document).ready(function () {
+        // Menyimpan nilai asli dari form sebelum modal dibuka
+        let originalFormData = {};
+
         // Ketika tombol edit diklik
         $('.user-update').click(function (e) {
             e.preventDefault();
@@ -538,6 +541,15 @@
             const photo = $(this).data('photo');
             const role = $(this).data('role');
 
+            // Simpan data asli ke dalam object originalFormData
+            originalFormData = {
+                userId: userId,
+                name: name,
+                email: email,
+                photo: photo,
+                role: role
+            };
+
             // Set data ke dalam modal
             $('#kt_modal_edit_user').find('#name').val(name);
             $('#kt_modal_edit_user').find('#email').val(email);
@@ -548,6 +560,18 @@
             $('#kt_modal_edit_user_form').attr('action', '/users/' + userId);
 
             // Tampilkan modal
+            $('#kt_modal_edit_user').modal('show');
+        });
+
+        // Ketika tombol Batal diklik, reset form ke nilai asli
+        $('#kt_modal_edit_user_reset').click(function () {
+            // Reset input values ke data asli
+            $('#kt_modal_edit_user').find('#name').val(originalFormData.name);
+            $('#kt_modal_edit_user').find('#email').val(originalFormData.email);
+            $('#kt_modal_edit_user').find('#current-photo').attr('src', originalFormData.photo);
+            $('#kt_modal_edit_user').find('#role-' + originalFormData.role).prop('checked', true);
+
+            // Tidak menutup modal
             $('#kt_modal_edit_user').modal('show');
         });
     });

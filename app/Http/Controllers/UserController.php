@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -89,10 +90,56 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
-    {
-        //
-    }
+     // Fungsi untuk mengupdate data user
+     public function update(Request $request, $id)
+     {
+         // Validasi input
+         $validated = $request->validate([
+             'name' => 'required|string|max:255',
+             'email' => 'required|email|max:255|unique:users,email,' . $id, // Pastikan email unik kecuali untuk user yang sedang diupdate
+             'password' => 'nullable|min:8|confirmed',  // password opsional, jika diisi maka harus minimal 8 karakter
+             'role' => 'required|in:admin,staf',  // Role harus admin atau staf
+             'photo' => 'nullable|image|mimes:jpg,jpeg,png,gif,svg|max:2048',  // validasi gambar
+         ]);
+     
+         // Ambil data user
+         $user = User::findOrFail($id);
+     
+         // Proses foto jika ada
+         if ($request->hasFile('photo')) {
+             // Hapus foto lama jika ada
+             if ($user->photo && Storage::exists('public/' . $user->photo)) {
+                 Storage::delete('public/' . $user->photo);
+             }
+     
+             // Simpan foto baru
+             $path = $request->file('photo')->store('photos', 'public');
+             $user->photo = $path;
+         }
+     
+         // Jika password baru diisi, hash dan perbarui password
+         if ($request->filled('password')) {
+             $user->password = Hash::make($request->password);
+         }
+     
+         // Perbarui data lainnya (jika ada perubahan)
+         $user->name = $request->name;
+         $user->email = $request->email;
+         $user->role = $request->role;
+         
+         // Simpan perubahan
+         $user->save();
+     
+         // Menambahkan log aktivitas
+         Log::create([
+             'user_id' => Auth::id(),  // ID pengguna yang sedang login
+             'activity_type' => 'update',  // Jenis aktivitas
+             'description' => 'Pengguna dengan nama "' . $user->name . '" telah diperbarui',  // Deskripsi aktivitas
+         ]);
+     
+         // Redirect atau respon berhasil
+         return redirect()->route('users.index')->with('success', 'User berhasil diperbarui.');
+     }
 
     /**
      * Remove the specified resource from storage.
