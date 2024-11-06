@@ -324,8 +324,13 @@
                                     <!--end::Menu item-->
                                     <!--begin::Menu item-->
                                     <div class="px-3 menu-item">
-                                        <a href="#" class="px-3 menu-link"
-                                            data-kt-users-table-filter="delete_row">Hapus</a>
+                                        <!-- Hapus Form -->
+                                        <form action="{{ route('users.destroy', $user->id) }}" method="POST"
+                                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="px-3 menu-link btn btn-sm">Hapus</button>
+                                        </form>
                                     </div>
                                     <!--end::Menu item-->
                                 </div>

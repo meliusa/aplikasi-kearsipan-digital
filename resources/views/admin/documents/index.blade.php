@@ -326,8 +326,13 @@
                                     <!--end::Menu item-->
                                     <!--begin::Menu item-->
                                     <div class="px-3 menu-item">
-                                        <a href="#" class="px-3 menu-link"
-                                            data-kt-users-table-filter="delete_row">Hapus</a>
+                                        <!-- Hapus Form -->
+                                        <form action="{{ route('documents.destroy', $document->id) }}" method="POST"
+                                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus dokumen ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="px-3 menu-link btn btn-sm">Hapus</button>
+                                        </form>
                                     </div>
                                     <!--end::Menu item-->
                                 </div>
@@ -535,9 +540,9 @@
 
                 // Set link unduh dengan path relatif yang benar
                 $('#modal-unduh-link').attr('href', '/storage/' + response
-                .file_path); // Menggunakan /storage/ di sini
+                    .file_path); // Menggunakan /storage/ di sini
                 $('#modal-unduh-link').text('Unduh ' + response
-                .title); // Ubah teks tombol unduh sesuai judul dokumen
+                    .title); // Ubah teks tombol unduh sesuai judul dokumen
 
                 // Tampilkan modal
                 $('#kt_modal_1').modal('show');

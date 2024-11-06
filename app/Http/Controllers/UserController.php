@@ -63,7 +63,7 @@ class UserController extends Controller
         Log::create([
             'user_id' => Auth::id(),  // Menyimpan ID pengguna yang membuat log ini, jika user yang logged in membuatnya
             'activity_type' => 'create',  // Jenis aktivitas
-            'description' => 'Pengguna baru dengan nama ' . $user->name . ' telah ditambahkan',  // Deskripsi aktivitas
+            'description' => 'Pengguna baru dengan nama "' . $user->name . '" telah ditambahkan',  // Deskripsi aktivitas
         ]);
 
         // Redirect atau memberikan response yang sesuai
@@ -97,8 +97,22 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        //
+            // Temukan pengguna berdasarkan ID
+        $user = User::findOrFail($id);
+
+        // Simpan log penghapusan (jika diinginkan)
+        $log = Log::create([
+            'user_id' => Auth::id(),  // ID pengguna yang sedang login
+            'activity_type' => 'delete',  // Jenis aktivitas
+            'description' => 'Pengguna dengan nama "' . $user->name . '" telah dihapus',
+        ]);
+
+        // Hapus pengguna
+        $user->delete();
+
+        // Redirect ke halaman daftar pengguna dengan pesan sukses
+        return redirect()->route('users.index')->with('success', 'Pengguna berhasil dihapus!');
     }
 }

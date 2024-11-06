@@ -109,9 +109,23 @@ class DocumentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Document $document)
+    public function destroy($id)
     {
-        //
+        // Temukan dokumen berdasarkan ID
+        $document = Document::findOrFail($id);
+
+        // Simpan log penghapusan (jika diinginkan)
+        Log::create([
+            'user_id' => Auth::id(),  // ID pengguna yang sedang login
+            'activity_type' => 'delete',  // Jenis aktivitas
+            'description' => 'Dokumen dengan judul "' . $document->title . '" telah dihapus',
+        ]);
+
+        // Hapus dokumen
+        $document->delete();
+
+        // Redirect ke halaman daftar dokumen dengan pesan sukses
+        return redirect()->route('documents.index')->with('success', 'Dokumen berhasil dihapus!');
     }
 
     public function fileManager()
