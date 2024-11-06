@@ -61,7 +61,7 @@
                         </span>
                         <!--end::Svg Icon-->
                         <input type="text" data-kt-user-table-filter="search"
-                            class="form-control form-control-solid w-250px ps-14" placeholder="Search user" />
+                            class="form-control form-control-solid w-250px ps-14" placeholder="Cari" />
                     </div>
                     <!--end::Search-->
                 </div>
@@ -82,7 +82,7 @@
                                     <rect x="4.36396" y="11.364" width="16" height="2" rx="1" fill="black" />
                                 </svg>
                             </span>
-                            <!--end::Svg Icon-->Tambah Pengguna</button>
+                            <!--end::Svg Icon-->Tambah Data</button>
                         <!--end::Add user-->
                     </div>
                     <!--end::Toolbar-->
@@ -96,7 +96,7 @@
                                 <!--begin::Modal header-->
                                 <div class="modal-header" id="kt_modal_add_user_header">
                                     <!--begin::Modal title-->
-                                    <h2 class="fw-bolder">Tambah Pengguna</h2>
+                                    <h2 class="fw-bolder">Tambah Data</h2>
                                     <!--end::Modal title-->
                                     <!--begin::Close-->
                                     <div class="btn btn-icon btn-sm btn-active-icon-primary"
