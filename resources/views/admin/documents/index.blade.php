@@ -433,7 +433,8 @@
             <div class="mx-5 modal-body scroll-y mx-xl-15 my-7">
                 <!--begin::Form-->
                 <form id="kt_modal_edit_document_form" class="form"
-                    action="{{ route('documents.update','document-id') }}" method="POST" enctype="multipart/form-data">
+                    action="{{ route('documents.update', ['document' => $document->id]) }}" method="POST"
+                    enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <!--begin::Scroll-->
@@ -465,51 +466,6 @@
                         <!--end::Input group-->
                         <!--begin::Input group-->
                         <div class="mb-7">
-                            <!--begin::Label-->
-                            <label class="mb-5 required fw-bold fs-6">Status</label>
-                            <!--end::Label-->
-                            <!--begin::Roles-->
-                            <!--begin::Input row-->
-                            <div class="d-flex fv-row">
-                                <!--begin::Radio-->
-                                <div class="form-check form-check-custom form-check-solid">
-                                    <!--begin::Input-->
-                                    <input class="form-check-input me-3" name="user_role" type="radio" value="0"
-                                        id="kt_modal_update_role_option_0" checked='checked' />
-                                    <!--end::Input-->
-                                    <!--begin::Label-->
-                                    <label class="form-check-label" for="kt_modal_update_role_option_0">
-                                        <div class="text-gray-800 fw-bolder">Private</div>
-                                        <div class="text-gray-600">Hanya dapat dilihat oleh Anda.
-                                        </div>
-                                    </label>
-                                    <!--end::Label-->
-                                </div>
-                                <!--end::Radio-->
-                            </div>
-                            <!--end::Input row-->
-                            <div class='my-5 separator separator-dashed'></div>
-                            <!--begin::Input row-->
-                            <div class="d-flex fv-row">
-                                <!--begin::Radio-->
-                                <div class="form-check form-check-custom form-check-solid">
-                                    <!--begin::Input-->
-                                    <input class="form-check-input me-3" name="user_role" type="radio" value="1"
-                                        id="kt_modal_update_role_option_1" />
-                                    <!--end::Input-->
-                                    <!--begin::Label-->
-                                    <label class="form-check-label" for="kt_modal_update_role_option_1">
-                                        <div class="text-gray-800 fw-bolder">Public</div>
-                                        <div class="text-gray-600">Dapat dilihat oleh semua
-                                            pengguna.</div>
-                                    </label>
-                                    <!--end::Label-->
-                                </div>
-                                <!--end::Radio-->
-                            </div>
-                            <!--end::Input row-->
-                            <div class='my-5 separator separator-dashed'></div>
-                            <!--end::Roles-->
                             <!--begin::Input group-->
                             <div class="fv-row mb-7 file-info"></div> <!-- Menampilkan informasi file lama -->
                             <div class="fv-row mb-7">
@@ -525,8 +481,8 @@
                     <!--end::Scroll-->
                     <!--begin::Actions-->
                     <div class="text-center pt-15">
-                        <button type="reset" class="btn btn-light me-3"
-                            data-kt-users-modal-action="cancel">Batal</button>
+                        <button type="button" class="btn btn-light me-3"
+                            id="kt_modal_edit_document_reset">Batal</button>
                         <button type="submit" class="btn btn-warning" data-kt-documents-modal-action="submit">
                             <span class="indicator-label">Ubah</span>
                             <span class="indicator-progress">Mohon tunggu...
@@ -689,13 +645,19 @@
             url: '/get-document-detail/' + id, // Memanggil route yang sudah ada
             type: 'GET',
             success: function (data) {
+                // Menyimpan nilai asli dari form sebelum modal dibuka
+                let originalFormData = {
+                    title: data.title,
+                    description: data.description,
+                    file_path: data.file_path // Menyimpan path file asli
+                };
+
+                // Set action form ke route update
+                $('#kt_modal_edit_document_form').attr('action', '/documents/' + id);
+
                 // Isi data dokumen ke dalam form modal
-                $('#kt_modal_edit_document_form').attr('action', '/documents/' +
-                    id); // Set action form ke route update
                 $('#kt_modal_edit_document_form input[name="title"]').val(data.title);
                 $('#kt_modal_edit_document_form textarea[name="description"]').val(data.description);
-                $('#kt_modal_edit_document_form input[name="user_role"][value="' + (data.status ===
-                    'public' ? 1 : 0) + '"]').prop('checked', true);
 
                 // Menampilkan nama file yang sudah diunggah (Jika ada)
                 if (data.file_path) {
@@ -705,6 +667,36 @@
                         '<a href="' + fileUrl + '" target="_blank">File Saat Ini: ' + fileName + '</a>'
                     );
                 }
+
+                // Ketika tombol Batal diklik, reset form ke nilai asli
+                $('#kt_modal_edit_document_reset').click(function () {
+                    // Reset input values ke data asli
+                    $('#kt_modal_edit_document_form input[name="title"]').val(originalFormData
+                        .title);
+                    $('#kt_modal_edit_document_form textarea[name="description"]').val(
+                        originalFormData.description);
+
+                    // Menampilkan file yang sudah diunggah (Jika ada)
+                    if (originalFormData.file_path) {
+                        var fileUrl = '/storage/' + originalFormData.file_path;
+                        var fileName = originalFormData.file_path.split('/').pop();
+                        $('#kt_modal_edit_document_form .file-info').html(
+                            '<a href="' + fileUrl + '" target="_blank">File Saat Ini: ' +
+                            fileName + '</a>'
+                        );
+                    } else {
+                        $('#kt_modal_edit_document_form .file-info').html('');
+                    }
+
+                    // Tidak menutup modal
+                    $('#kt_modal_edit_document').modal('show');
+                });
+
+                // Tampilkan modal setelah data dimuat
+                $('#kt_modal_edit_document').modal('show');
+            },
+            error: function () {
+                alert("Gagal memuat data dokumen.");
             }
         });
     }

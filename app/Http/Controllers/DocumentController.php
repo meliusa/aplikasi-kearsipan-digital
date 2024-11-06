@@ -101,9 +101,48 @@ class DocumentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Document $document)
+    public function update(Request $request, $id)
     {
-        //
+        // Validasi form, file_path adalah optional
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'file_path' => 'nullable|file|mimes:pdf,doc,docx,png,jpg,jpeg|max:1024', // file opsional
+        ]);
+    
+        // Temukan dokumen berdasarkan ID
+        $document = Document::findOrFail($id);
+    
+        // Jika ada file baru yang diupload
+        if ($request->hasFile('file_path')) {
+            // Hapus file lama jika ada
+            if ($document->file_path && Storage::disk('public')->exists($document->file_path)) {
+                Storage::disk('public')->delete($document->file_path);
+            }
+    
+            // Menyimpan file baru
+            $filePath = $request->file('file_path')->store('documents', 'public');
+        } else {
+            // Jika tidak ada file baru, gunakan file lama
+            $filePath = $document->file_path;
+        }
+    
+        // Update data dokumen
+        $document->update([
+            'title' => $validated['title'],
+            'description' => $validated['description'] ?? null,
+            'file_path' => $filePath, // Menyimpan file yang baru atau tetap dengan file lama
+        ]);
+    
+        // Menambahkan entri log setelah memperbarui dokumen
+        Log::create([
+            'user_id' => Auth::id(),  // Menyimpan ID pengguna yang sedang login
+            'activity_type' => 'update',  // Jenis aktivitas
+            'description' => 'Dokumen dengan judul "' . $document->title . '" telah diperbarui',
+        ]);
+    
+        // Redirect setelah memperbarui data
+        return redirect()->route('documents.index')->with('success', 'Dokumen berhasil diperbarui!');
     }
 
     /**
