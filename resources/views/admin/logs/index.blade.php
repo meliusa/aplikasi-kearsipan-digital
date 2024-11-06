@@ -337,7 +337,7 @@
                             <th class="min-w-30px">No</th>
                             <th class="min-w-125px">Pengguna</th>
                             <th class="min-w-125px">Tipe Aktivitas</th>
-                            <th class="min-w-100px">Deskripsi</th>
+                            <th class="min-w-125px">Deskripsi</th>
                             <th class="min-w-125px">Terakhir Diperbarui</th>
                         </tr>
                         <!--end::Table row-->

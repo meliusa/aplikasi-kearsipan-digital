@@ -162,4 +162,35 @@ class UserController extends Controller
         // Redirect ke halaman daftar pengguna dengan pesan sukses
         return redirect()->route('users.index')->with('success', 'Pengguna berhasil dihapus!');
     }
+
+    // Fungsi untuk mengupdate status 'is_active'
+    public function updateStatus(Request $request, $id)
+    {
+        // Temukan user berdasarkan ID
+        $user = User::findOrFail($id);
+
+        // Simpan status lama untuk keperluan log
+        $oldStatus = $user->is_active;
+
+        // Pastikan data yang dikirim adalah status yang valid (0 atau 1)
+        $newStatus = $request->is_active == 1 ? 1 : 0;
+
+        // Update status is_active
+        $user->is_active = $newStatus;
+        $user->save();
+
+        // Menambahkan log aktivitas
+        Log::create([
+            'user_id' => Auth::id(),  // ID pengguna yang sedang login
+            'activity_type' => 'update',  // Jenis aktivitas
+            'description' => 'Status user "' . $user->name . '" berubah dari ' . ($oldStatus ? 'Aktif' : 'Tidak Aktif') . ' menjadi ' . ($user->is_active ? 'Aktif' : 'Tidak Aktif') . '.',  // Deskripsi aktivitas
+        ]);
+
+        // Mengembalikan response JSON sebagai respon sukses
+        return response()->json([
+            'status' => 'success', 
+            'message' => 'Status berhasil diperbarui',
+            'new_status' => $user->is_active
+        ]);
+    }
 }

@@ -287,14 +287,14 @@
                             @endphp
                             <td>{{ $result }}</td>
                             @php
-                            // Jika is_active == 1 maka checked, jika tidak, unchecked
                             $isChecked = $user->is_active == 1 ? 'checked' : '';
                             @endphp
                             <td>
                                 <div class="form-check form-switch form-check-custom form-check-solid">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexSwitchChecked"
-                                        {{ $isChecked }} />
-                                    <label class="form-check-label" for="flexSwitchChecked">
+                                    <input class="form-check-input" type="checkbox" value="{{ $user->id }}"
+                                        id="flexSwitchChecked-{{ $user->id }}" {{ $isChecked }}
+                                        data-id="{{ $user->id }}" />
+                                    <label class="form-check-label" for="flexSwitchChecked-{{ $user->id }}">
                                         Aktif
                                     </label>
                                 </div>
@@ -430,8 +430,10 @@
         </div>
     </div>
 </div>
+<script>
+    var csrfToken = "{{ csrf_token() }}";
 
-
+</script>
 @endsection
 @section('custom-js')
 <script>
@@ -573,6 +575,34 @@
 
             // Tidak menutup modal
             $('#kt_modal_edit_user').modal('show');
+        });
+    });
+
+    $(document).ready(function () {
+        $('input[type="checkbox"][id^="flexSwitchChecked-"]').on('change', function () {
+            var userId = $(this).data('id'); // ID user
+            var isActive = $(this).prop('checked') ? 1 :
+                0; // Tentukan status baru (1: Aktif, 0: Tidak Aktif)
+
+            // Kirim request AJAX untuk mengupdate status is_active
+            $.ajax({
+                url: '/users/update-status/' + userId, // URL untuk update status
+                type: 'POST',
+                data: {
+                    is_active: isActive, // Status yang baru
+                    _token: '{{ csrf_token() }}' // Token CSRF untuk proteksi
+                },
+                success: function (response) {
+                    // Tampilkan pesan sukses jika diperlukan
+                    if (response.status === 'success') {
+                        console.log(response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Tangani error jika ada
+                    console.error("Error: " + error);
+                }
+            });
         });
     });
 
