@@ -349,15 +349,38 @@
                         <!--begin::Table row-->
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            @php
-                            $result = '';
-                            foreach ($users as $user) {
-                            if($user->id == $log->user_id){
-                            $result = $user->name;
-                            }
-                            }
-                            @endphp
-                            <td>{{ $result }}</td>
+                            <td class="d-flex align-items-center">
+                                <!--begin::User details-->
+                                @php
+                                $name_result = '';
+                                $email_result = '';
+                                $photo_result = '';
+                                foreach ($users as $user) {
+                                if($user->id == $log->user_id){
+                                $name_result = $user->name;
+                                $email_result = $user->email;
+                                $photo_result = $user->photo;
+                                }
+                                }
+                                @endphp
+                                <!--begin:: Avatar -->
+                                <div class="overflow-hidden symbol symbol-circle symbol-50px me-3">
+                                    <a href="../../demo1/dist/apps/user-management/users/view.html">
+                                        <div class="symbol-label">
+                                            {{-- <img src="assets/media/avatars/300-6.jpg" alt="Emma Smith" class="w-100" /> --}}
+                                            <img src="{{ asset('storage/' . $photo_result) }}" alt="Foto"
+                                                class="w-100" />
+                                        </div>
+                                    </a>
+                                </div>
+                                <!--end::Avatar-->
+                                <div class="d-flex flex-column">
+                                    <a href="../../demo1/dist/apps/user-management/users/view.html"
+                                        class="mb-1 text-gray-800 text-hover-primary">{{ $name_result }}</a>
+                                    <span>{{ $email_result }}</span>
+                                </div>
+                                <!--begin::User details-->
+                            </td>
                             @php
                             $activityTypes = [
                             'create' => ['colour' => 'success', 'result' => 'Tambah Data'],

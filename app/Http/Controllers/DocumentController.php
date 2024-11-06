@@ -144,24 +144,5 @@ class DocumentController extends Controller
             'created_at' => $document->created_at->format('d M Y H:i')
         ]);
     }
-
-    public function download($id)
-{
-    // Ambil dokumen berdasarkan ID
-    $document = Document::findOrFail($id);
-
-    // Path relatif ke file
-    $filePath = storage_path('app/public/' . $document->file_path);
-
-    // Pastikan file ada di storage
-    if (file_exists($filePath)) {
-        // Mengunduh file menggunakan response()->download()
-        return response()->download($filePath, $document->title . '.' . pathinfo($filePath, PATHINFO_EXTENSION));
-    }
-
-    // Jika file tidak ditemukan, tampilkan error
-    return response()->json(['error' => 'File tidak ditemukan'], 404);
-}
-
     
 }
