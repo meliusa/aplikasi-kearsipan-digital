@@ -35,6 +35,11 @@
 <div class="post d-flex flex-column-fluid" id="kt_post">
     <!--begin::Container-->
     <div id="kt_content_container" class="container-xxl">
+        @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+        @endif
         <!--begin::Card-->
         <div class="card">
             <!--begin::Card header-->
@@ -278,18 +283,16 @@
                                 @endif
                             </td>
                             @php
-                            $colour = "";
-                            $result = "";
-                            if ($document->status == "public") {
-                            $colour = "success";
-                            $result = "Publik";
-                            } else {
-                            $colour = "danger";
-                            $result = "Pribadi";
-                            }
+                            $isChecked = $document->status == "public" ? 'checked' : '';
                             @endphp
                             <td>
-                                <div class="badge badge-light-{{ $colour }} fw-bolder">{{ $result }}</div>
+                                <div class="form-check form-switch form-check-custom form-check-solid">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexSwitchChecked"
+                                        {{ $isChecked }} />
+                                    <label class="form-check-label" for="flexSwitchChecked">
+                                        Publik
+                                    </label>
+                                </div>
                             </td>
                             <td>{{ $document->updated_at->format('d-m-Y H:i') }}</td>
                             <td class="text-end">

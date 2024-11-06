@@ -374,7 +374,8 @@
                             </td>
                             <td>{{ $document->updated_at->format('d-m-Y H:i') }}</td>
                             <td class="text-end">
-                                <a href="../../demo1/dist/apps/user-management/users/view.html" class="btn btn-icon">
+                                <a href="{{ route('document.download', $document->id) }}" class="btn btn-icon"
+                                    title="Unduh" target="_blank">
                                     <i class="fa fa-download"></i>
                                 </a>
                             </td>

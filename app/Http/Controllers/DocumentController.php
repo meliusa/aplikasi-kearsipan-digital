@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Document;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class DocumentController extends Controller
 {
@@ -116,32 +117,51 @@ class DocumentController extends Controller
     }
 
     public function getDocumentDetail($id)
-{
-    // Ambil dokumen beserta informasi pengguna
-    $document = Document::with('user')->find($id);
+    {
+        // Ambil dokumen beserta informasi pengguna
+        $document = Document::with('user')->find($id);
 
-    // Pastikan dokumen ditemukan
-    if (!$document) {
-        return response()->json(['error' => 'Dokumen tidak ditemukan'], 404);
+        // Pastikan dokumen ditemukan
+        if (!$document) {
+            return response()->json(['error' => 'Dokumen tidak ditemukan'], 404);
+        }
+
+        // Ambil nama dan email pengguna
+        $user_name = $document->user->name;
+        $user_email = $document->user->email;
+
+        // Mengembalikan hanya path relatif file (tanpa base URL)
+        $file_path = $document->file_path;  // Ini adalah path relatif
+
+        // Mengembalikan data dokumen beserta informasi pengguna dan file path
+        return response()->json([
+            'title' => $document->title,
+            'description' => $document->description,
+            'file_path' => $file_path,  // Path relatif
+            'status' => $document->status,
+            'user_name' => $user_name,
+            'user_email' => $user_email,
+            'created_at' => $document->created_at->format('d M Y H:i')
+        ]);
     }
 
-    // Ambil nama dan email pengguna
-    $user_name = $document->user->name;
-    $user_email = $document->user->email;
+    public function download($id)
+{
+    // Ambil dokumen berdasarkan ID
+    $document = Document::findOrFail($id);
 
-    // Mengembalikan hanya path relatif file (tanpa base URL)
-    $file_path = $document->file_path;  // Ini adalah path relatif
+    // Path relatif ke file
+    $filePath = storage_path('app/public/' . $document->file_path);
 
-    // Mengembalikan data dokumen beserta informasi pengguna dan file path
-    return response()->json([
-        'title' => $document->title,
-        'description' => $document->description,
-        'file_path' => $file_path,  // Path relatif
-        'status' => $document->status,
-        'user_name' => $user_name,
-        'user_email' => $user_email,
-        'created_at' => $document->created_at->format('d M Y H:i')
-    ]);
+    // Pastikan file ada di storage
+    if (file_exists($filePath)) {
+        // Mengunduh file menggunakan response()->download()
+        return response()->download($filePath, $document->title . '.' . pathinfo($filePath, PATHINFO_EXTENSION));
+    }
+
+    // Jika file tidak ditemukan, tampilkan error
+    return response()->json(['error' => 'File tidak ditemukan'], 404);
 }
+
     
 }
