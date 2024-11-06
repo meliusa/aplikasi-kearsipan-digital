@@ -318,8 +318,13 @@
                                     data-kt-menu="true">
                                     <!--begin::Menu item-->
                                     <div class="px-3 menu-item">
-                                        <a href="../../demo1/dist/apps/user-management/users/view.html"
-                                            class="px-3 menu-link">Ubah</a>
+                                        <button class="px-3 menu-link btn btn-sm user-update"
+                                            data-user-id="{{ $user->id }}" data-name="{{ $user->name }}"
+                                            data-email="{{ $user->email }}"
+                                            data-photo="{{ asset('storage/' . $user->photo) }}"
+                                            data-role="{{ $user->role }}" data-kt-users-modal-action="edit">
+                                            Ubah
+                                        </button>
                                     </div>
                                     <!--end::Menu item-->
                                     <!--begin::Menu item-->
@@ -352,6 +357,81 @@
     <!--end::Container-->
 </div>
 <!--end::Post-->
+
+<div class="modal fade" id="kt_modal_edit_user" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered mw-650px">
+        <div class="modal-content">
+            <div class="modal-header" id="kt_modal_edit_user_header">
+                <h2 class="fw-bolder">Ubah Data</h2>
+                <!-- Close Button -->
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="kt_modal_edit_user_form" action="{{ route('users.update', 'user_id') }}" method="POST"
+                    enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <!-- Foto -->
+                    <div class="fv-row mb-7">
+                        <label for="current_photo">Foto Saat Ini:</label><br>
+                        <img class="mb-2 rounded img-fluid" id="current-photo" height="120" width="120"
+                            alt="Foto Saat Ini" />
+                        <div class="form-floating">
+                            <input type="file" id="photo" name="photo" class="form-control" />
+                            <label for="photo">Unggah Foto Baru</label>
+                        </div>
+                    </div>
+
+                    <!-- Nama Lengkap -->
+                    <div class="fv-row mb-7">
+                        <label class="mb-2 required fw-bold fs-6">Nama Lengkap</label>
+                        <input type="text" name="name" id="name" class="mb-3 form-control form-control-solid mb-lg-0"
+                            placeholder="Nama Lengkap" />
+                    </div>
+
+                    <!-- Surel -->
+                    <div class="fv-row mb-7">
+                        <label class="mb-2 required fw-bold fs-6">Surel (Email)</label>
+                        <input type="email" name="email" id="email" class="mb-3 form-control form-control-solid mb-lg-0"
+                            placeholder="contoh@domain.com" />
+                    </div>
+
+                    <!-- Kata Sandi -->
+                    <div class="fv-row mb-7">
+                        <label class="mb-2 required fw-bold fs-6">Kata Sandi</label>
+                        <input type="password" name="password" class="mb-3 form-control form-control-solid mb-lg-0"
+                            placeholder="**********" />
+                    </div>
+
+                    <!-- Role -->
+                    <div class="fv-row mb-7">
+                        <label class="mb-2 required fw-bold fs-6">Role</label>
+                        <div class="d-flex">
+                            <label class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="role" value="admin"
+                                    id="role-admin" />
+                                <span class="form-check-label">Admin</span>
+                            </label>
+                            <label class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="role" value="staf" id="role-staf" />
+                                <span class="form-check-label">Staf</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="text-center pt-15">
+                        <button type="reset" class="btn btn-light me-3" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-warning">
+                            <span class="indicator-label">Ubah</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @endsection
 @section('custom-js')
 <script>
@@ -445,6 +525,32 @@
             removeButton.style.display = 'none';
         }
     }
+
+    $(document).ready(function () {
+        // Ketika tombol edit diklik
+        $('.user-update').click(function (e) {
+            e.preventDefault();
+
+            // Ambil data dari tombol yang diklik
+            const userId = $(this).data('user-id');
+            const name = $(this).data('name');
+            const email = $(this).data('email');
+            const photo = $(this).data('photo');
+            const role = $(this).data('role');
+
+            // Set data ke dalam modal
+            $('#kt_modal_edit_user').find('#name').val(name);
+            $('#kt_modal_edit_user').find('#email').val(email);
+            $('#kt_modal_edit_user').find('#current-photo').attr('src', photo);
+            $('#kt_modal_edit_user').find('#role-' + role).prop('checked', true);
+
+            // Set action URL untuk form
+            $('#kt_modal_edit_user_form').attr('action', '/users/' + userId);
+
+            // Tampilkan modal
+            $('#kt_modal_edit_user').modal('show');
+        });
+    });
 
 </script>
 @endsection
